@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { tarea } from "../types/tarea.ts";
-import { FormularioTareaComponent } from "./componentes/formulario_tareaComponente.tsx"
+import { FormularioTareaComponent } from "./componentes/formularioTareaComponente.tsx"
 import { TareaComponente } from "./componentes/tareaComponente.tsx"
 import { AsideBar } from "./asideBar.tsx"
 export default function App() {
