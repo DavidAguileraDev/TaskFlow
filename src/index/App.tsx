@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { tarea } from "../types/tarea.ts";
 import { FormularioTareaComponent } from "./componentes/formulario_tareaComponente.tsx"
 import { TareaComponente } from "./componentes/tareaComponente.tsx"
@@ -7,124 +7,176 @@ export default function App() {
 
   const [tareas, setTareas] = useState<tarea[]>([])
   const [filtroTareas, setfiltroTareas] = useState(0)
-  const [idTarea, setIdTarea] = useState(1)
-
-  const tareasCompletadas = tareas.filter(
-    tarea => tarea.completada
-  ).length;
 
 
-  const cambiarFiltro = ((tipo_filtro: number) => {
+  useEffect((() => {
 
-    setfiltroTareas(tipo_filtro);
+    const localStorageTareas = localStorage.getItem("tareas");
 
-  })
-
-  const aniadirTarea = ((tarea_añadir: string) => {
-
-    const tarea_obj: tarea = {
-
-      id: idTarea,
-      titulo: String(tarea_añadir),
-      completada: false
-
+    if (localStorageTareas !== null) {
+      const respuesta: tarea[] = JSON.parse(localStorageTareas);
+      setTareas(respuesta)
     }
 
-    setTareas([...tareas, tarea_obj]);
-    setIdTarea(idTarea + 1)
-  })
+  }), [])
 
-  const eliminarTarea = ((id: number) => {
+  useEffect((() => {
 
-  
+    localStorage.setItem("tareas", JSON.stringify(tareas));
 
-    const tareasActuales = tareas.filter(tareas => tareas.id !== id)
+  }), [tareas])
 
+const tareasCompletadas = tareas.filter(
+  tarea => tarea.completada
+).length;
+
+const tareasIncompletadas = tareas.filter(
+  tarea => !tarea.completada
+).length;
+
+
+const textoNumTareas = tareas.length > 0 ? "Tienes " + tareas.length + " tareas" : "No tienes ninguna tarea"
+
+const cambiarFiltro = ((tipo_filtro: number) => {
+
+  setfiltroTareas(tipo_filtro);
+
+})
+
+const aniadirTarea = ((tarea_añadir: string) => {
+
+const nuevoId = tareas.length > 0
+    ? Math.max(...tareas.map(tarea => tarea.id)) + 1
+    : 1;
     
-    setTareas(tareasActuales)
+  const tarea_obj: tarea = {
 
-  })
+    id: nuevoId,
+    titulo: String(tarea_añadir),
+    completada: false
 
-  const cambiarTareaCompletada = (id: number, completada: boolean) => {
+  }
 
-    const nuevasTareas = tareas.map((tarea) => {
+  setTareas([...tareas, tarea_obj]);
+})
 
-      if (tarea.id === id) {
+const eliminarTarea = ((id: number) => {
 
-        return {
-          id: tarea.id,
-          titulo: tarea.titulo,
-          completada: completada
-        };
 
-      } else {
 
-        return tarea;
+  const tareasActuales = tareas.filter(tareas => tareas.id !== id)
 
-      }
-    });
 
-    setTareas(nuevasTareas);
-  };
+  setTareas(tareasActuales)
 
-  const tareasFiltradas = tareas.filter(tarea => {
+})
 
-    if (filtroTareas === 1) {
-      return tarea.completada;
+const modificarTareaCompletada = (id: number, nuevoTitulo: string) => {
+
+  const nuevasTareas = tareas.map((tarea) => {
+
+    if (tarea.id === id) {
+
+      return {
+        id: tarea.id,
+        titulo: nuevoTitulo,
+        completada: tarea.completada
+      };
+
+    } else {
+
+      return tarea;
+
     }
-
-    return true
-
   });
 
-  return (
-    <div className="app-container">
-      {/* Sidebar estilo Linear adaptado a pantalla completa */}
+  setTareas(nuevasTareas);
+};
 
-      <AsideBar
-        tareas={tareas}
-        tareasCompletadas={tareasCompletadas}
-        cambiarFiltroFn={cambiarFiltro}
-        numeroFiltro={filtroTareas}
+const cambiarTareaCompletada = (id: number, completada: boolean) => {
 
-      />
+  const nuevasTareas = tareas.map((tarea) => {
 
-      {/* Contenido principal a pantalla completa */}
-      <main className="main-content">
-        <h1>TaskFlow</h1>
-        <p>Filtro actual: {filtroTareas}</p>
-        <p>Tienes {tareas.length} tareas</p>
+    if (tarea.id === id) {
 
-        <div className="formulario-wrapper">
-          <FormularioTareaComponent handleClickAniadirFn={aniadirTarea} />
-        </div>
+      return {
+        id: tarea.id,
+        titulo: tarea.titulo,
+        completada: completada
+      };
 
-        {tareasFiltradas.length > 0 && (
-          <section className="tareas-contenedor">
+    } else {
 
-            {
+      return tarea;
 
-              tareasFiltradas.map(({ id, titulo, completada }) => {
+    }
+  });
 
-                return (
+  setTareas(nuevasTareas);
+};
 
-                  <TareaComponente
-                    key={id}
-                    id={id}
-                    titulo={titulo}
-                    completada={completada}
-                    handleClickEliminarfn={eliminarTarea}
-                    modificarTareaCompletada={cambiarTareaCompletada}
-                  />
+const tareasFiltradas = tareas.filter(tarea => {
 
-                );
+  if (filtroTareas === 1) {
+    return !tarea.completada;
+  }
+  else if (filtroTareas === 2) {
+    return tarea.completada;
+  }
 
-              })
+  return true
 
-            }
-          </section>
-        )}
-      </main>
-    </div>
-  );
+});
+
+return (
+  <div className="app-container">
+    {/* Sidebar estilo Linear adaptado a pantalla completa */}
+
+    <AsideBar
+      tareas={tareas}
+      tareasCompletadas={tareasCompletadas}
+      tareasIncompletas={tareasIncompletadas}
+      cambiarFiltroFn={cambiarFiltro}
+      numeroFiltro={filtroTareas}
+
+    />
+
+    {/* Contenido principal a pantalla completa */}
+    <main className="main-content">
+      <h1>TaskFlow</h1>
+      <p>{textoNumTareas}</p>
+
+      <div className="formulario-wrapper">
+        <FormularioTareaComponent handleClickAniadirFn={aniadirTarea} tareas={tareas} />
+      </div>
+
+      {tareasFiltradas.length > 0 && (
+        <section className="tareas-contenedor">
+
+          {
+
+            tareasFiltradas.map(({ id, titulo, completada }) => {
+
+              return (
+
+                <TareaComponente
+                  key={id}
+                  id={id}
+                  titulo={titulo}
+                  completada={completada}
+                  handleClickEliminarfn={eliminarTarea}
+                  modificarTareaCompletada={cambiarTareaCompletada}
+                  modificarTituloTarea={modificarTareaCompletada}
+                />
+
+              );
+
+            })
+
+          }
+        </section>
+      )}
+    </main>
+  </div>
+);
 }
