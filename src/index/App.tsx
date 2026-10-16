@@ -66,7 +66,7 @@ export default function App() {
 
   })
 
-  const modificarTareaCompletada = (id: number, nuevoTitulo: string) => {
+  const modificarTituloTarea = (id: number, nuevoTitulo: string) => {
 
     const nuevasTareas = tareas.map((tarea) => {
 
@@ -88,7 +88,7 @@ export default function App() {
     setTareas(nuevasTareas);
   };
 
-  const cambiarTareaCompletada = (id: number, completada: boolean) => {
+  const modificarTareaCompletada = (id: number, completada: boolean) => {
 
     const nuevasTareas = tareas.map((tarea) => {
 
@@ -160,8 +160,8 @@ export default function App() {
                     titulo={titulo}
                     completada={completada}
                     handleClickEliminarfn={eliminarTarea}
-                    modificarTareaCompletada={cambiarTareaCompletada}
-                    modificarTituloTarea={modificarTareaCompletada}
+                    modificarTareaCompletada={modificarTareaCompletada}
+                    modificarTituloTarea={modificarTituloTarea}
                   />
 
                 );
