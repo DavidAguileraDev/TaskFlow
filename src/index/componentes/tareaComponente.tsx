@@ -1,6 +1,18 @@
 import { useState } from "react";
 
 
+// B. Corregir la edición de tareas
+
+// Si quieres cambiar solo una parte del título, tienes que escribirlo entero.
+// Puedes guardar una tarea sin título.
+
+/* 
+Al abrir la edición, el campo debe contener el título actual.
+No debes permitir guardar un título vacío.
+Si pulsas «Cancelar», el título original debe mantenerse.
+Si no has cambiado el texto, guardar no debería causar problemas.
+*/
+
 export function TareaComponente({ id, titulo, completada, handleClickEliminarfn, modificarTareaCompletada, modificarTituloTarea }:
     { id: number, titulo: string, completada: boolean, handleClickEliminarfn: Function, modificarTareaCompletada: Function, modificarTituloTarea:Function }) {
 

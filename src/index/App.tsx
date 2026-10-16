@@ -5,20 +5,15 @@ import { TareaComponente } from "./componentes/tareaComponente.tsx"
 import { AsideBar } from "./asideBar.tsx"
 export default function App() {
 
-  const [tareas, setTareas] = useState<tarea[]>([])
+  const [tareas, setTareas] = useState<tarea[]>(() => {
+
+    const guardadas = localStorage.getItem("tareas");
+
+    return guardadas !== null ? JSON.parse(guardadas) : [];
+
+  });
+  
   const [filtroTareas, setfiltroTareas] = useState(0)
-
-
-  useEffect((() => {
-
-    const localStorageTareas = localStorage.getItem("tareas");
-
-    if (localStorageTareas !== null) {
-      const respuesta: tarea[] = JSON.parse(localStorageTareas);
-      setTareas(respuesta)
-    }
-
-  }), [])
 
   useEffect((() => {
 
@@ -26,157 +21,157 @@ export default function App() {
 
   }), [tareas])
 
-const tareasCompletadas = tareas.filter(
-  tarea => tarea.completada
-).length;
+  const tareasCompletadas = tareas.filter(
+    tarea => tarea.completada
+  ).length;
 
-const tareasIncompletadas = tareas.filter(
-  tarea => !tarea.completada
-).length;
-
-
-const textoNumTareas = tareas.length > 0 ? "Tienes " + tareas.length + " tareas" : "No tienes ninguna tarea"
-
-const cambiarFiltro = ((tipo_filtro: number) => {
-
-  setfiltroTareas(tipo_filtro);
-
-})
-
-const aniadirTarea = ((tarea_añadir: string) => {
-
-const nuevoId = tareas.length > 0
-    ? Math.max(...tareas.map(tarea => tarea.id)) + 1
-    : 1;
-    
-  const tarea_obj: tarea = {
-
-    id: nuevoId,
-    titulo: String(tarea_añadir),
-    completada: false
-
-  }
-
-  setTareas([...tareas, tarea_obj]);
-})
-
-const eliminarTarea = ((id: number) => {
+  const tareasIncompletadas = tareas.filter(
+    tarea => !tarea.completada
+  ).length;
 
 
+  const textoNumTareas = tareas.length > 0 ? "Tienes " + tareas.length + " tareas" : "No tienes ninguna tarea"
 
-  const tareasActuales = tareas.filter(tareas => tareas.id !== id)
+  const cambiarFiltro = ((tipo_filtro: number) => {
 
+    setfiltroTareas(tipo_filtro);
 
-  setTareas(tareasActuales)
+  })
 
-})
+  const aniadirTarea = ((tarea_añadir: string) => {
 
-const modificarTareaCompletada = (id: number, nuevoTitulo: string) => {
+    const nuevoId = tareas.length > 0
+      ? Math.max(...tareas.map(tarea => tarea.id)) + 1
+      : 1;
 
-  const nuevasTareas = tareas.map((tarea) => {
+    const tarea_obj: tarea = {
 
-    if (tarea.id === id) {
-
-      return {
-        id: tarea.id,
-        titulo: nuevoTitulo,
-        completada: tarea.completada
-      };
-
-    } else {
-
-      return tarea;
+      id: nuevoId,
+      titulo: String(tarea_añadir),
+      completada: false
 
     }
-  });
 
-  setTareas(nuevasTareas);
-};
+    setTareas([...tareas, tarea_obj]);
+  })
 
-const cambiarTareaCompletada = (id: number, completada: boolean) => {
+  const eliminarTarea = ((id: number) => {
 
-  const nuevasTareas = tareas.map((tarea) => {
 
-    if (tarea.id === id) {
 
-      return {
-        id: tarea.id,
-        titulo: tarea.titulo,
-        completada: completada
-      };
+    const tareasActuales = tareas.filter(tareas => tareas.id !== id)
 
-    } else {
 
-      return tarea;
+    setTareas(tareasActuales)
 
+  })
+
+  const modificarTareaCompletada = (id: number, nuevoTitulo: string) => {
+
+    const nuevasTareas = tareas.map((tarea) => {
+
+      if (tarea.id === id) {
+
+        return {
+          id: tarea.id,
+          titulo: nuevoTitulo,
+          completada: tarea.completada
+        };
+
+      } else {
+
+        return tarea;
+
+      }
+    });
+
+    setTareas(nuevasTareas);
+  };
+
+  const cambiarTareaCompletada = (id: number, completada: boolean) => {
+
+    const nuevasTareas = tareas.map((tarea) => {
+
+      if (tarea.id === id) {
+
+        return {
+          id: tarea.id,
+          titulo: tarea.titulo,
+          completada: completada
+        };
+
+      } else {
+
+        return tarea;
+
+      }
+    });
+
+    setTareas(nuevasTareas);
+  };
+
+  const tareasFiltradas = tareas.filter(tarea => {
+
+    if (filtroTareas === 1) {
+      return !tarea.completada;
     }
+    else if (filtroTareas === 2) {
+      return tarea.completada;
+    }
+
+    return true
+
   });
 
-  setTareas(nuevasTareas);
-};
+  return (
+    <div className="app-container">
+      {/* Sidebar estilo Linear adaptado a pantalla completa */}
 
-const tareasFiltradas = tareas.filter(tarea => {
+      <AsideBar
+        tareas={tareas}
+        tareasCompletadas={tareasCompletadas}
+        tareasIncompletas={tareasIncompletadas}
+        cambiarFiltroFn={cambiarFiltro}
+        numeroFiltro={filtroTareas}
 
-  if (filtroTareas === 1) {
-    return !tarea.completada;
-  }
-  else if (filtroTareas === 2) {
-    return tarea.completada;
-  }
+      />
 
-  return true
+      {/* Contenido principal a pantalla completa */}
+      <main className="main-content">
+        <h1>TaskFlow</h1>
+        <p>{textoNumTareas}</p>
 
-});
+        <div className="formulario-wrapper">
+          <FormularioTareaComponent handleClickAniadirFn={aniadirTarea} tareas={tareas} />
+        </div>
 
-return (
-  <div className="app-container">
-    {/* Sidebar estilo Linear adaptado a pantalla completa */}
+        {tareasFiltradas.length > 0 && (
+          <section className="tareas-contenedor">
 
-    <AsideBar
-      tareas={tareas}
-      tareasCompletadas={tareasCompletadas}
-      tareasIncompletas={tareasIncompletadas}
-      cambiarFiltroFn={cambiarFiltro}
-      numeroFiltro={filtroTareas}
+            {
 
-    />
+              tareasFiltradas.map(({ id, titulo, completada }) => {
 
-    {/* Contenido principal a pantalla completa */}
-    <main className="main-content">
-      <h1>TaskFlow</h1>
-      <p>{textoNumTareas}</p>
+                return (
 
-      <div className="formulario-wrapper">
-        <FormularioTareaComponent handleClickAniadirFn={aniadirTarea} tareas={tareas} />
-      </div>
+                  <TareaComponente
+                    key={id}
+                    id={id}
+                    titulo={titulo}
+                    completada={completada}
+                    handleClickEliminarfn={eliminarTarea}
+                    modificarTareaCompletada={cambiarTareaCompletada}
+                    modificarTituloTarea={modificarTareaCompletada}
+                  />
 
-      {tareasFiltradas.length > 0 && (
-        <section className="tareas-contenedor">
+                );
 
-          {
+              })
 
-            tareasFiltradas.map(({ id, titulo, completada }) => {
-
-              return (
-
-                <TareaComponente
-                  key={id}
-                  id={id}
-                  titulo={titulo}
-                  completada={completada}
-                  handleClickEliminarfn={eliminarTarea}
-                  modificarTareaCompletada={cambiarTareaCompletada}
-                  modificarTituloTarea={modificarTareaCompletada}
-                />
-
-              );
-
-            })
-
-          }
-        </section>
-      )}
-    </main>
-  </div>
-);
+            }
+          </section>
+        )}
+      </main>
+    </div>
+  );
 }
