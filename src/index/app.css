@@ -350,12 +350,16 @@ button:hover {
     transform: translateY(-1px);
 }
 
-/* Mensaje de validación del menú */
-.menu-editar-tarea p {
-    margin: 0;
-    color: #fca5a5;
-    font-size: 13px;
+
+.menu-editar-tarea p.mensaje-positivo {
+    color: rgb(44, 153, 44);
 }
+
+.menu-editar-tarea p.mensaje-negativo {
+    color: red;
+}
+
+
 
 /* Adaptación a pantallas pequeñas */
 @media (max-width: 700px) {

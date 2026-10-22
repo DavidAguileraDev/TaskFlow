@@ -3,7 +3,7 @@ import { useState } from "react";
 import type { tarea } from "../../types/tarea.ts"
 
 
-export function FormularioTareaComponent({ handleClickAniadirFn, tareas}: { handleClickAniadirFn : Function , tareas : tarea[]}) {
+export function FormularioTareaComponent({ handleClickAniadirFn, tareas}: { handleClickAniadirFn : (titulo: string) => void , tareas : tarea[]}) {
 
 
     const [textoConfirm, setTextoConfirm] = useState("");

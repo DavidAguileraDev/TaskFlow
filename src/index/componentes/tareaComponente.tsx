@@ -14,10 +14,18 @@ Si no has cambiado el texto, guardar no debería causar problemas.
 */
 
 export function TareaComponente({ id, titulo, completada, handleClickEliminarfn, modificarTareaCompletada, modificarTituloTarea }:
-    { id: number, titulo: string, completada: boolean, handleClickEliminarfn: Function, modificarTareaCompletada: Function, modificarTituloTarea:Function }) {
+    {
+        id: number,
+        titulo: string,
+        completada: boolean,
+        handleClickEliminarfn: (id: number) => void,
+        modificarTituloTarea: (id: number, nuevoTitulo: string) => void,
+        modificarTareaCompletada: (id: number, completada: boolean) => void
+    }) {
 
     const [editando, setEditando] = useState(false);
-    const [nuevoTitulo, setNuevoTitulo] = useState("");
+    const [nuevoTitulo, setNuevoTitulo] = useState(titulo);
+    const [mensaje, setMensaje] = useState("");
 
     const texto = completada ? "⟲" : "✔";
 
@@ -26,6 +34,10 @@ export function TareaComponente({ id, titulo, completada, handleClickEliminarfn,
     const botonCompletarClassName = completada
         ? 'tarea-completar-button is-completada'
         : 'tarea-completar-button'
+
+    let mensajeClassName = mensaje === "¡Titulo cambiado con éxito!" ? "mensaje-positivo" : "mensaje-negativo";
+
+
 
 
     const handleClickCompletar = (() => {
@@ -42,18 +54,25 @@ export function TareaComponente({ id, titulo, completada, handleClickEliminarfn,
 
     const handleClickEditar = (() => {
 
-        setEditando(editando ? false : true);
+        setEditando(!editando);
 
     })
 
     const handleClickGuardar = (() => {
-        modificarTituloTarea(id, nuevoTitulo)
-        setNuevoTitulo("");
-        setEditando(false)
+        if (nuevoTitulo === titulo) {
+            handleClickCancelar()
+        } else if (nuevoTitulo.trim().length > 0) {
+            modificarTituloTarea(id, nuevoTitulo)
+            setMensaje("¡Titulo cambiado con éxito!")
+        } else {
+            setMensaje("No se puede introducir un titulo vacío")
+        }
     })
 
     const handleClickCancelar = (() => {
         setEditando(false)
+        setNuevoTitulo(titulo)
+        setMensaje("");
     })
 
     return (
@@ -69,31 +88,31 @@ export function TareaComponente({ id, titulo, completada, handleClickEliminarfn,
                 <button className="boton-eliminar-tarea" onClick={handleClickEliminar}>Eliminar</button>
 
                 {editando && (
-                <div className="menu-editar-tarea">
+                    <div className="menu-editar-tarea">
 
-                    <h3>Editar tarea</h3>
+                        <h3>Editar tarea</h3>
 
-                    <input
-                        type="text"
-                        value={nuevoTitulo}
-                        onChange={(e) =>
-                            setNuevoTitulo(e.target.value)
-                        }
-                        placeholder="Nuevo nombre"
-                    />
+                        <input
+                            type="text"
+                            value={nuevoTitulo}
+                            onChange={(e) =>
+                                setNuevoTitulo(e.target.value)
+                            }
+                        />
 
-                    <button onClick={handleClickGuardar}>
-                        Guardar
-                    </button>
+                        <button onClick={handleClickGuardar}>
+                            Guardar
+                        </button>
 
-                    <button onClick={handleClickCancelar}>
-                        Cancelar
-                    </button>
+                        <button onClick={handleClickCancelar}>
+                            Cancelar
+                        </button>
 
-                    {/*mensaje && <p>{mensaje}</p>*/}
+                        {mensaje && <p className={mensajeClassName}>{mensaje}</p>}
 
-                </div>
-            )}
+                    </div>
+                )}
+                
 
             </div>
 

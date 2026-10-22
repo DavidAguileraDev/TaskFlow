@@ -1,6 +1,7 @@
 import type { tarea } from "../types/tarea.ts";
 
-export function AsideBar({tareas, tareasCompletadas, tareasIncompletas, cambiarFiltroFn, numeroFiltro} : {tareas: tarea[], tareasCompletadas:number,tareasIncompletas:number, cambiarFiltroFn:Function,numeroFiltro:number}) {
+export function AsideBar({tareas, tareasCompletadas, tareasIncompletas, cambiarFiltroFn, numeroFiltro}: 
+    {tareas: tarea[], tareasCompletadas:number,tareasIncompletas:number, cambiarFiltroFn: (titulo: number) => void,numeroFiltro:number}) {
 
 
     const handleClickCambiarFiltro0 = (() => {
@@ -28,7 +29,7 @@ export function AsideBar({tareas, tareasCompletadas, tareasIncompletas, cambiarF
                     <span className="badge">{tareas.length}</span>
                 </div>
                 <div  className={`sidebar-item ${numeroFiltro === 1 ? "active" : ""}`} onClick={handleClickCambiarFiltro1}>
-                    <span>📌 Tareas por completar</span>
+                    <span>📌 Tareas pendientes</span>
                     <span className="badge">{tareasIncompletas}</span>
                 </div>
                 <div  className={`sidebar-item ${numeroFiltro === 2 ? "active" : ""}`} onClick={handleClickCambiarFiltro2}>
