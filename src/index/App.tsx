@@ -9,11 +9,11 @@ import { useFiltroTareas } from "../hooks/useFiltroTareas.ts";
 export default function App() {
 
 
-  const { tareas, aniadirTarea, eliminarTarea, modificarTituloTarea, modificarTareaCompletada } = useTareas()
-  const {filtroTareas, tareasCompletadas, tareasIncompletadas, cambiarFiltro, tareasFiltradas} = useFiltroTareas({tareas})
+  const { tareas, aniadirTarea, alternarTareaEnPapelera ,eliminarTarea, modificarTituloTarea, modificarTareaCompletada } = useTareas()
+  const {filtroTareas, tareasDisponibles, tareasCompletadas, tareasIncompletadas, tareasPapelera, cambiarFiltro, tareasFiltradas} = useFiltroTareas({tareas})
 
 
-  const textoNumTareas = tareas.length > 0 ? "Tienes " + tareas.length + " tareas" : "No tienes ninguna tarea"
+  const textoNumTareas = tareasDisponibles > 0 ? "Tienes " + tareasDisponibles + " tareas" : "No tienes ninguna tarea"
 
 
   return (
@@ -21,9 +21,10 @@ export default function App() {
       {/* Sidebar estilo Linear adaptado a pantalla completa */}
 
       <AsideBar
-        tareas={tareas}
+        tareasDisponibles={tareasDisponibles}
         tareasCompletadas={tareasCompletadas}
         tareasIncompletas={tareasIncompletadas}
+        tareasPapelera={tareasPapelera}
         cambiarFiltroFn={cambiarFiltro}
         numeroFiltro={filtroTareas}
 
@@ -52,6 +53,8 @@ export default function App() {
                     id={task.id}
                     titulo={task.titulo}
                     completada={task.completada}
+                    inTrush={task.inTrush}
+                    handleClickAlternarTareaEnPapelera={alternarTareaEnPapelera}
                     handleClickEliminarfn={eliminarTarea}
                     modificarTituloTarea={modificarTituloTarea}
                     modificarTareaCompletada={modificarTareaCompletada}

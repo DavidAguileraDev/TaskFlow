@@ -170,9 +170,7 @@ button:hover {
 }
 
 /* Botones de cada tarea (fijos y alineados a la derecha) */
-.tarea-completar-button,
-.boton-eliminar-tarea,
-.boton-editar-tarea {
+.boton-tarea {
     flex-shrink: 0;
     border: 1px solid #858585;
     border-radius: 32px;
@@ -189,21 +187,20 @@ button:hover {
         transform 0.2s ease;
 }
 
-.tarea-completar-button:hover,
-.boton-eliminar-tarea:hover,
-.boton-editar-tarea:hover {
+
+.boton-tarea:hover {
     background-color: #7b7a7a;
     border-color: #b0b0b0;
     transform: translateY(-2px);
 }
 
-.tarea-completar-button.is-completada {
+.boton-tarea.is-completada {
     background-color: #343434;
     border: 1px solid #6b9b78;
     color: #a8ddb5;
 }
 
-.tarea-completar-button.is-completada:hover {
+.boton-tarea.is-completada:hover {
     background-color: #404940;
     border-color: #85bd93;
 }
@@ -383,9 +380,7 @@ button:hover {
     }
 
     /* En pantallas muy estrechas los botones pasan a una línea propia ordenados o se mantienen */
-    .tarea-completar-button,
-    .boton-eliminar-tarea,
-    .boton-editar-tarea {
+    .boton-tarea {
         padding: 6px 12px;
         font-size: 12px;
     }

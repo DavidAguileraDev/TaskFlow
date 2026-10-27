@@ -13,11 +13,13 @@ Si pulsas «Cancelar», el título original debe mantenerse.
 Si no has cambiado el texto, guardar no debería causar problemas.
 */
 
-export function TareaComponente({ id, titulo, completada, handleClickEliminarfn, modificarTareaCompletada, modificarTituloTarea }:
+export function TareaComponente({ id, titulo, completada, inTrush, handleClickAlternarTareaEnPapelera, handleClickEliminarfn, modificarTareaCompletada, modificarTituloTarea }:
     {
         id: number,
         titulo: string,
         completada: boolean,
+        inTrush: boolean,
+        handleClickAlternarTareaEnPapelera: (id: number) => void,
         handleClickEliminarfn: (id: number) => void,
         modificarTituloTarea: (id: number, nuevoTitulo: string) => void,
         modificarTareaCompletada: (id: number, completada: boolean) => void
@@ -32,8 +34,8 @@ export function TareaComponente({ id, titulo, completada, handleClickEliminarfn,
     const nombreClassName = completada ? "tarea-completada" : "";
 
     const botonCompletarClassName = completada
-        ? 'tarea-completar-button is-completada'
-        : 'tarea-completar-button'
+        ? 'boton-tarea is-completada'
+        : 'boton-tarea'
 
     let mensajeClassName = mensaje === "¡Titulo cambiado con éxito!" ? "mensaje-positivo" : "mensaje-negativo";
 
@@ -47,10 +49,19 @@ export function TareaComponente({ id, titulo, completada, handleClickEliminarfn,
 
     })
 
-    const handleClickEliminar = (() => {
-        handleClickEliminarfn(id)
+    const handleClickEliminarOPapelera = (() => {
+        if (inTrush) {
+            handleClickEliminarfn(id)
+        } else {
+            handleClickAlternarTareaEnPapelera(id)
+        }
     })
 
+    const handleClickRestaurar = (() => {
+
+        handleClickAlternarTareaEnPapelera(id);
+
+    })
 
     const handleClickEditar = (() => {
 
@@ -81,11 +92,14 @@ export function TareaComponente({ id, titulo, completada, handleClickEliminarfn,
             <div className="tarea-contenedor">
 
                 <h1>{id}</h1>
-                <h1 className={nombreClassName}>{titulo}</h1>
+                <h1 className={nombreClassName} >{titulo} {inTrush ? "si" : "No"}</h1>
 
-                <button className="boton-editar-tarea" onClick={handleClickEditar}>✎</button>
-                <button className={botonCompletarClassName} onClick={handleClickCompletar}>{texto}</button>
-                <button className="boton-eliminar-tarea" onClick={handleClickEliminar}>Eliminar</button>
+                {!inTrush && <button className="boton-tarea" onClick={handleClickEditar}>✎</button>}
+                {!inTrush && <button className={botonCompletarClassName} onClick={handleClickCompletar}>{texto}</button>}
+                {inTrush && <button className="boton-tarea" onClick={handleClickRestaurar}>
+                    Restaurar
+                </button>}
+                <button className="boton-tarea" onClick={handleClickEliminarOPapelera}>Eliminar</button>
 
                 {editando && (
                     <div className="menu-editar-tarea">
@@ -108,11 +122,12 @@ export function TareaComponente({ id, titulo, completada, handleClickEliminarfn,
                             Cancelar
                         </button>
 
+
                         {mensaje && <p className={mensajeClassName}>{mensaje}</p>}
 
                     </div>
                 )}
-                
+
 
             </div>
 

@@ -6,6 +6,7 @@ import type { tarea } from "../types/tarea";
 export function useTareas(): {
     tareas: tarea[],
     aniadirTarea: (titulo: string) => void,
+    alternarTareaEnPapelera:(id: number) => void,
     eliminarTarea: (id: number) => void,
     modificarTituloTarea: (id: number, titulo: string) => void,
     modificarTareaCompletada: (id: number, completada: boolean) => void
@@ -39,11 +40,38 @@ export function useTareas(): {
 
       id: nuevoId,
       titulo: String(tarea_añadir),
-      completada: false
+      completada: false,
+      inTrush: false
 
     }
 
     setTareas([...tareas, tarea_obj]);
+  })
+
+  const alternarTareaEnPapelera = ((id: number) => {
+
+
+
+    const nuevasTareas = tareas.map((tarea) => {
+
+      if (tarea.id === id) {
+
+        return {
+          id: tarea.id,
+          titulo: tarea.titulo,
+          completada: tarea.completada,
+          inTrush: !tarea.inTrush
+        };
+
+      } else {
+
+        return tarea;
+
+      }
+    });
+    
+    setTareas(nuevasTareas);
+
   })
 
   const eliminarTarea = ((id: number) => {
@@ -66,7 +94,8 @@ export function useTareas(): {
         return {
           id: tarea.id,
           titulo: nuevoTitulo,
-          completada: tarea.completada
+          completada: tarea.completada,
+          inTrush: tarea.inTrush
         };
 
       } else {
@@ -88,7 +117,8 @@ export function useTareas(): {
         return {
           id: tarea.id,
           titulo: tarea.titulo,
-          completada: completada
+          completada: completada,
+          inTrush: tarea.inTrush
         };
 
       } else {
@@ -101,5 +131,5 @@ export function useTareas(): {
     setTareas(nuevasTareas);
   };
 
-  return {tareas, aniadirTarea, eliminarTarea, modificarTituloTarea, modificarTareaCompletada }
+  return {tareas, aniadirTarea, alternarTareaEnPapelera, eliminarTarea, modificarTituloTarea, modificarTareaCompletada }
 }
