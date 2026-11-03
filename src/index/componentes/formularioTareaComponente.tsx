@@ -3,7 +3,7 @@ import { useState } from "react";
 import type { tarea } from "../../types/tarea.ts"
 
 
-export function FormularioTareaComponent({ handleClickAniadirFn, tareas}: { handleClickAniadirFn : (titulo: string) => void , tareas : tarea[]}) {
+export function FormularioTareaComponent({ handleClickAniadirFn, tareasFiltradas}: { handleClickAniadirFn : (titulo: string) => void , tareasFiltradas : tarea[]}) {
 
 
     const [textoConfirm, setTextoConfirm] = useState("");
@@ -11,7 +11,7 @@ export function FormularioTareaComponent({ handleClickAniadirFn, tareas}: { hand
 
     const handleClickNombre = (() => {
 
-        const repetido = tareas.filter((tarea) => {
+        const repetido = tareasFiltradas.filter((tarea) => {
 
             if(tarea.titulo === nombre.trim()){
                 return true

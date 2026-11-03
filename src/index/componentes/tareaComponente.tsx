@@ -1,90 +1,49 @@
-import { useState } from "react";
+import type { tarea } from "../../types/tarea";
+import { useEdicionTarea } from "../../hooks/useEdicionTarea";
 
 
-// B. Corregir la edición de tareas
-
-// Si quieres cambiar solo una parte del título, tienes que escribirlo entero.
-// Puedes guardar una tarea sin título.
-
-/* 
-Al abrir la edición, el campo debe contener el título actual.
-No debes permitir guardar un título vacío.
-Si pulsas «Cancelar», el título original debe mantenerse.
-Si no has cambiado el texto, guardar no debería causar problemas.
-*/
-
-export function TareaComponente({ id, titulo, completada, inTrush, handleClickAlternarTareaEnPapelera, handleClickEliminarfn, modificarTareaCompletada, modificarTituloTarea }:
+export function TareaComponente({ tarea, numeroFiltro, listTareasDisponibles, handleClickAlternarTareaEnPapelera, handleClickEliminarfn, modificarTareaCompletada, modificarTituloTarea }:
     {
-        id: number,
-        titulo: string,
-        completada: boolean,
-        inTrush: boolean,
+        tarea: tarea
+        numeroFiltro: number,
+        listTareasDisponibles: tarea[],
         handleClickAlternarTareaEnPapelera: (id: number) => void,
         handleClickEliminarfn: (id: number) => void,
         modificarTituloTarea: (id: number, nuevoTitulo: string) => void,
         modificarTareaCompletada: (id: number, completada: boolean) => void
     }) {
 
-    const [editando, setEditando] = useState(false);
-    const [nuevoTitulo, setNuevoTitulo] = useState(titulo);
-    const [mensaje, setMensaje] = useState("");
 
-    const texto = completada ? "⟲" : "✔";
-
-    const nombreClassName = completada ? "tarea-completada" : "";
-
-    const botonCompletarClassName = completada
-        ? 'boton-tarea is-completada'
-        : 'boton-tarea'
-
-    let mensajeClassName = mensaje === "¡Titulo cambiado con éxito!" ? "mensaje-positivo" : "mensaje-negativo";
-
-
-
-
-    const handleClickCompletar = (() => {
-
-
-        modificarTareaCompletada(id, !completada)
-
+    const {
+        editando,
+        nuevoTitulo,
+        mensaje,
+        texto,
+        nombreClassName,
+        botonCompletarClassName,
+        mensajeClassName,
+        handleOnChangeNuevoTitulo,
+        handleClickCompletar,
+        handleClickEliminarOPapelera,
+        handleClickRestaurar,
+        handleClickEditar,
+        handleClickGuardar,
+        handleClickCancelar
+    } = useEdicionTarea({
+        tarea,
+        numeroFiltro,
+        listTareasDisponibles,
+        handleClickAlternarTareaEnPapelera,
+        handleClickEliminarfn,
+        modificarTareaCompletada,
+        modificarTituloTarea
     })
 
-    const handleClickEliminarOPapelera = (() => {
-        if (inTrush) {
-            handleClickEliminarfn(id)
-        } else {
-            handleClickAlternarTareaEnPapelera(id)
-        }
-    })
 
-    const handleClickRestaurar = (() => {
+    const id = tarea.id;
+    const titulo = tarea.titulo;
+    const inTrush = tarea.inTrush;
 
-        handleClickAlternarTareaEnPapelera(id);
-
-    })
-
-    const handleClickEditar = (() => {
-
-        setEditando(!editando);
-
-    })
-
-    const handleClickGuardar = (() => {
-        if (nuevoTitulo === titulo) {
-            handleClickCancelar()
-        } else if (nuevoTitulo.trim().length > 0) {
-            modificarTituloTarea(id, nuevoTitulo)
-            setMensaje("¡Titulo cambiado con éxito!")
-        } else {
-            setMensaje("No se puede introducir un titulo vacío")
-        }
-    })
-
-    const handleClickCancelar = (() => {
-        setEditando(false)
-        setNuevoTitulo(titulo)
-        setMensaje("");
-    })
 
     return (
         <>
@@ -96,6 +55,7 @@ export function TareaComponente({ id, titulo, completada, inTrush, handleClickAl
 
                 {!inTrush && <button className="boton-tarea" onClick={handleClickEditar}>✎</button>}
                 {!inTrush && <button className={botonCompletarClassName} onClick={handleClickCompletar}>{texto}</button>}
+                {inTrush && <p className={mensajeClassName}>{mensaje}</p>}
                 {inTrush && <button className="boton-tarea" onClick={handleClickRestaurar}>
                     Restaurar
                 </button>}
@@ -110,7 +70,7 @@ export function TareaComponente({ id, titulo, completada, inTrush, handleClickAl
                             type="text"
                             value={nuevoTitulo}
                             onChange={(e) =>
-                                setNuevoTitulo(e.target.value)
+                                handleOnChangeNuevoTitulo(e)
                             }
                         />
 

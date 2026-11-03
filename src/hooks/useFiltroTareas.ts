@@ -1,30 +1,32 @@
 import { useState } from "react";
 import type { tarea } from "../types/tarea";
 
-export function useFiltroTareas({tareas}:{tareas:tarea[]}):{
-  filtroTareas:number,
-  tareasDisponibles:number,
-  tareasCompletadas:number, 
-  tareasIncompletadas:number, 
-  tareasPapelera:number,
+export function useFiltroTareas({ tareas }: { tareas: tarea[] }): {
+  filtroTareas: number,
+  numTareasDisponibles: number,
+  numTareasCompletadas: number,
+  numTareasIncompletadas: number,
+  numTareasPapelera: number,
   cambiarFiltro: (tipo_filtro: number) => void,
-  tareasFiltradas: tarea[]} {
+  tareasFiltradas: tarea[],
+  listTareasDisponibles: tarea[]
+} {
 
   const [filtroTareas, setfiltroTareas] = useState(0)
 
-  const tareasDisponibles = tareas.filter(
+  const numTareasDisponibles = tareas.filter(
     tarea => !tarea.inTrush
   ).length;
 
-  const tareasCompletadas = tareas.filter(
+  const numTareasCompletadas = tareas.filter(
     tarea => tarea.completada && !tarea.inTrush
   ).length;
 
-  const tareasIncompletadas = tareas.filter(
+  const numTareasIncompletadas = tareas.filter(
     tarea => !tarea.completada && !tarea.inTrush
   ).length;
 
-  const tareasPapelera = tareas.filter(
+  const numTareasPapelera = tareas.filter(
     tarea => tarea.inTrush
   ).length;
 
@@ -36,7 +38,7 @@ export function useFiltroTareas({tareas}:{tareas:tarea[]}):{
 
   const tareasFiltradas = tareas.filter(tarea => {
 
-    if(filtroTareas === 0){
+    if (filtroTareas === 0) {
       return !tarea.inTrush;
     }
     else if (filtroTareas === 1) {
@@ -45,7 +47,7 @@ export function useFiltroTareas({tareas}:{tareas:tarea[]}):{
     else if (filtroTareas === 2) {
       return tarea.completada && !tarea.inTrush;
 
-    }else if (filtroTareas === 3) {
+    } else if (filtroTareas === 3) {
       return tarea.inTrush;
     }
 
@@ -53,5 +55,11 @@ export function useFiltroTareas({tareas}:{tareas:tarea[]}):{
 
   });
 
-  return {filtroTareas, tareasDisponibles, tareasCompletadas, tareasIncompletadas, tareasPapelera, cambiarFiltro,tareasFiltradas}
+  const listTareasDisponibles = tareas.filter(tarea => {
+
+    return !tarea.inTrush;
+
+  });
+
+  return { filtroTareas, numTareasDisponibles, numTareasCompletadas, numTareasIncompletadas, numTareasPapelera, cambiarFiltro, tareasFiltradas, listTareasDisponibles }
 }

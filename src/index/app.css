@@ -50,7 +50,7 @@ body {
     font-weight: 600;
 }
 
-.sidebar-item {
+.sidebar-button {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -62,13 +62,20 @@ body {
     transition: background 0.2s, color 0.2s;
 }
 
-.sidebar-item:hover,
-.sidebar-item.active {
+.sidebar-button:focus-visible {
+    outline: 2px solid #818cf8;
+    outline-offset: 2px;
+    background-color: #27272a;
+    border-radius: 6px;
+}
+
+.sidebar-button:hover,
+.sidebar-button.active {
     background-color: #2a2a2a;
     color: white;
 }
 
-.sidebar-item span.badge {
+.sidebar-button span.badge {
     background-color: #333;
     padding: 2px 6px;
     border-radius: 4px;
@@ -102,7 +109,38 @@ body {
 .formulario-wrapper {
     width: 100%;
     max-width: 650px;
-    margin-bottom: 24px;
+}
+
+.filter-show-tasks {
+    margin-bottom: 20px;
+    display: flex;
+    background-color: #696868;
+    border-radius: 32px;
+
+
+}
+
+
+.filter-button {
+    color: white;
+    background-color: #696868;
+    border: none;
+    outline: none;
+}
+
+
+.boton-filter-show-tasks{
+    align-self: flex-start;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background-color: #696868;
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid #858585;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+          
 }
 
 input,
@@ -146,7 +184,8 @@ button:hover {
     background-color: #525151;
     border-radius: 24px;
     display: grid;
-    grid-template-columns: auto 1fr auto auto auto; /* ID, Título flexible, y 3 botones fijos */
+    grid-template-columns: auto 1fr auto auto auto;
+    /* ID, Título flexible, y 3 botones fijos */
     align-items: center;
     padding: 15px 20px;
     gap: 15px;
@@ -155,18 +194,19 @@ button:hover {
 }
 
 /* ID de la tarea */
-.tarea-contenedor > h1:first-of-type {
+.tarea-contenedor>h1:first-of-type {
     margin: 0;
     font-size: 18px;
     min-width: 25px;
 }
 
 /* Título de la tarea: ocupa el espacio flexible restante y corta o rompe línea si es muy largo */
-.tarea-contenedor > h1:nth-of-type(2) {
+.tarea-contenedor>h1:nth-of-type(2) {
     margin: 0;
     font-size: 18px;
     overflow-wrap: anywhere;
-    min-width: 0; /* Vital para que Grid gestione bien el espacio flexible del texto */
+    min-width: 0;
+    /* Vital para que Grid gestione bien el espacio flexible del texto */
 }
 
 /* Botones de cada tarea (fijos y alineados a la derecha) */
@@ -180,7 +220,8 @@ button:hover {
     font-family: 'system-ui', sans-serif;
     font-weight: 600;
     cursor: pointer;
-    white-space: nowrap; /* Evita que el texto del botón se rompa */
+    white-space: nowrap;
+    /* Evita que el texto del botón se rompa */
     transition:
         background-color 0.2s ease,
         border-color 0.2s ease,
@@ -264,7 +305,8 @@ button:hover {
 
 /* Menú de edición: se despliega ocupando todo el ancho inferior (grid-column completo) */
 .menu-editar-tarea {
-    grid-column: 1 / -1; /* Ocupa todas las columnas del grid principal */
+    grid-column: 1 / -1;
+    /* Ocupa todas las columnas del grid principal */
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -273,14 +315,14 @@ button:hover {
     background-color: #424141;
     border: 1px solid #636262;
     border-radius: 16px;
-    
+
     /* Propiedades para la transición suave de apertura/cierre */
     max-height: 0;
     opacity: 0;
     transform: translateY(-8px);
     overflow: hidden;
     padding: 0 16px;
-    transition: 
+    transition:
         max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
         opacity 0.3s ease,
         transform 0.3s ease,
@@ -289,7 +331,7 @@ button:hover {
 }
 
 /* Clase activa para desplegar el menú de edición con transición */
-.menu-editar-tarea.open,
+.menu-filtro-tarea.open,
 .tarea-contenedor:has(.menu-editar-tarea) .menu-editar-tarea {
     max-height: 220px;
     opacity: 1;
@@ -342,7 +384,8 @@ button:hover {
     transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.menu-editar-tarea button:hover {
+.menu-editar-tarea button:hover,
+.menu-filtro-tarea button:hover {
     background-color: #7b7a7a;
     transform: translateY(-1px);
 }
@@ -374,7 +417,8 @@ button:hover {
     }
 
     .tarea-contenedor {
-        grid-template-columns: auto 1fr; /* Simplifica el grid en móviles si es necesario */
+        grid-template-columns: auto 1fr;
+        /* Simplifica el grid en móviles si es necesario */
         gap: 10px;
         padding: 14px;
     }
