@@ -1,78 +1,142 @@
-# React + TypeScript + Vite
+# TaskFlow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Organiza tus tareas. Controla tus prioridades. Gestiona tu tiempo.
 
-Currently, two official plugins are available:
+TaskFlow es una aplicación de gestión de tareas desarrollada con **React y TypeScript**, diseñada para facilitar la organización del trabajo diario mediante una interfaz intuitiva y herramientas que permiten gestionar, clasificar y supervisar tareas.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+El proyecto nace como una oportunidad para poner en práctica conceptos de desarrollo frontend, arquitectura de componentes, hooks personalizados y gestión del estado en React.
 
-## React Compiler
+---
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## Vista general
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+**TaskFlow v0.5.0** incorpora un sistema de gestión de tareas con prioridades, fechas de vencimiento, búsqueda, filtros y diferentes criterios de ordenación.
 
-## Expanding the ESLint configuration
+## Capturas de pantalla
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Dashboard
+Vista principal de la aplicación y gestión de tareas.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+![Dashboard de TaskFlow](docs/screenshots/Dashboard.png)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Barra lateral
+Navegación y acceso a las diferentes secciones de la aplicación.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+![AsideBar de TaskFlow](docs/screenshots/AsideBar.png)
 
+### Filtros
+Organización de las tareas según su estado.
+
+![Filtros de TaskFlow](docs/screenshots/Filters.png)
+
+---
+
+## Funcionalidades principales
+
+- **Gestión de tareas (CRUD):** creación, edición y eliminación de tareas.
+- **Prioridades:** clasificación en prioridad baja, media y alta.
+- **Fechas de vencimiento:** asignación y modificación de fechas límite.
+- **Detección de tareas vencidas:** identificación visual de tareas cuya fecha de vencimiento ha pasado.
+- **Buscador:** búsqueda de tareas por título.
+- **Filtros:** visualización de todas las tareas, pendientes, completadas y papelera.
+- **Ordenación:** organización por nombre, prioridad y fecha de vencimiento.
+- **Papelera:** eliminación lógica, restauración y eliminación permanente de tareas.
+- **Persistencia local:** almacenamiento mediante LocalStorage.
+
+## Tecnologías utilizadas
+
+| Tecnología | Uso |
+|---|---|
+| React | Construcción de la interfaz |
+| TypeScript | Tipado estático |
+| Vite | Entorno de desarrollo y compilación |
+| CSS | Diseño y estilos |
+| LocalStorage | Persistencia local |
+| Git | Control de versiones |
+
+---
+
+## Instalación y ejecución
+
+Requisitos: Node.js y npm.
+
+1. Clona el repositorio:
+
+```bash
+git clone URL_DE_TU_REPOSITORIO
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+2. Accede al proyecto:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+cd TaskFlow
 ```
+
+3. Instala las dependencias:
+
+```bash
+npm install
+```
+
+4. Inicia el servidor:
+
+```bash
+npm run dev
+```
+
+Vite proporcionará una dirección local para acceder a la aplicación desde el navegador.
+
+---
+
+## Estructura del proyecto
+
+El código está organizado para separar responsabilidades y facilitar el mantenimiento y la ampliación de la aplicación.
+
+```text
+src/
+├── hooks/
+├── index/
+│   ├── componentes/
+│   └── constantes/
+├── types/
+└── utils/
+```
+
+- **hooks:** lógica reutilizable mediante hooks personalizados de React.
+- **index/componentes:** componentes visuales de la aplicación.
+- **index/constantes:** constantes y configuraciones utilizadas por el proyecto.
+- **types:** interfaces y tipos de TypeScript.
+- **utils:** funciones auxiliares independientes de los componentes.
+
+---
+
+## Hoja de ruta
+
+| Versión | Objetivo | Estado |
+|---|---|---|
+| v0.5 | Prioridades, fechas, búsqueda, ordenación y detección de vencimientos de tareas | Completada |
+| v0.6 | Integración de Symfony y base de datos | Planificada |
+
+### Próximamente: v0.6.0
+
+La siguiente versión estará centrada en evolucionar la arquitectura de la aplicación:
+
+- Incorporación de **Symfony** como backend.
+- Creación de una API para gestionar las tareas.
+- Integración de una base de datos.
+- Comunicación entre React y Symfony mediante peticiones HTTP.
+- Sustitución progresiva de LocalStorage por persistencia en el servidor.
+
+El objetivo será evolucionar TaskFlow hacia una arquitectura frontend-backend, manteniendo React y TypeScript en el cliente.
+
+---
+
+## Autor
+
+Proyecto personal desarrollado como parte de mi aprendizaje y evolución en el desarrollo web.
+
+**TaskFlow — Proyecto personal de desarrollo web.**
+
+---
+
+<sub>Versión actual: v0.5.0 · En desarrollo continuo.</sub>
