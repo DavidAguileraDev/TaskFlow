@@ -1,4 +1,7 @@
-/* Reseteo global para que ocupe toda la pantalla */
+/* ========================================
+   CONFIGURACIÓN GENERAL
+======================================== */
+
 * {
     box-sizing: border-box;
 }
@@ -20,14 +23,20 @@ body {
     overflow: hidden;
 }
 
-/* Contenedor principal dividido en dos columnas */
+/* ========================================
+   ESTRUCTURA PRINCIPAL
+======================================== */
+
 .app-container {
     display: flex;
     width: 100%;
     height: 100vh;
 }
 
-/* Sidebar lateral izquierdo */
+/* ========================================
+   SIDEBAR
+======================================== */
+
 .sidebar {
     width: 260px;
     flex-shrink: 0;
@@ -66,7 +75,6 @@ body {
     outline: 2px solid #818cf8;
     outline-offset: 2px;
     background-color: #27272a;
-    border-radius: 6px;
 }
 
 .sidebar-button:hover,
@@ -82,7 +90,10 @@ body {
     font-size: 11px;
 }
 
-/* Área de contenido principal */
+/* ========================================
+   CONTENIDO PRINCIPAL
+======================================== */
+
 .main-content {
     flex: 1;
     min-width: 0;
@@ -105,21 +116,73 @@ body {
     margin: 0 0 24px 0;
 }
 
-/* Contenedor del formulario */
+/* ========================================
+   FORMULARIO
+======================================== */
+
 .formulario-wrapper {
     width: 100%;
     max-width: 650px;
 }
+
+.tarea-input-contenedor {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    max-width: 650px;
+}
+
+.tarea-input-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: #2b2b2b;
+    border-radius: 6px;
+    padding: 10px 14px;
+    gap: 10px;
+    width: 100%;
+    transition: background-color 0.2s ease;
+}
+
+.tarea-input-wrapper:hover {
+    background-color: #333;
+}
+
+.tarea-icono {
+    color: #888;
+    font-size: 18px;
+    font-weight: 500;
+    user-select: none;
+}
+
+.tarea-icono:hover {
+    cursor: pointer;
+}
+
+.tarea-input-wrapper input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 15px;
+    width: 100%;
+}
+
+.tarea-input-wrapper input::placeholder {
+    color: #777;
+    opacity: 1;
+}
+
+/* ========================================
+   FILTROS
+======================================== */
 
 .filter-show-tasks {
     margin-bottom: 20px;
     display: flex;
     background-color: #696868;
     border-radius: 32px;
-
-
 }
-
 
 .filter-button {
     color: white;
@@ -128,8 +191,7 @@ body {
     outline: none;
 }
 
-
-.boton-filter-show-tasks{
+.boton-filter-show-tasks {
     align-self: flex-start;
     padding: 8px 16px;
     border-radius: 20px;
@@ -140,8 +202,11 @@ body {
     cursor: pointer;
     border: 1px solid #858585;
     transition: background-color 0.2s ease, transform 0.2s ease;
-          
 }
+
+/* ========================================
+   ESTILOS GENERALES DE INPUTS Y BOTONES
+======================================== */
 
 input,
 button {
@@ -161,201 +226,521 @@ button:hover {
     cursor: pointer;
 }
 
-/* Contenedor de la lista de tareas (ancho ampliado) */
+
+/* CONTENEDOR DEL FILTRO */
+
+.filtro-ordenacion {
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* BOTÓN PRINCIPAL */
+
+.filter-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+    padding: 8px;
+
+    background-color: #292933;
+    border: 1px solid #41414d;
+    border-radius: 10px;
+
+    color: #a1a1aa;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.filter-button:hover,
+.filter-button.activo {
+    background-color: #383844;
+    border-color: #6366f1;
+    color: white;
+}
+
+/* MENÚ */
+
+.menu-filtro-tarea {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+
+    z-index: 100;
+
+    width: 260px;
+    max-height: 70vh;
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    padding: 16px;
+
+    background-color: #20202a;
+    border: 1px solid #383843;
+    border-radius: 12px;
+
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+
+    animation: aparecer-menu 0.18s ease;
+}
+
+/* ANIMACIÓN */
+
+@keyframes aparecer-menu {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* CABECERA */
+
+.menu-filtro-header h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #f4f4f5;
+}
+
+/* GRUPOS */
+
+.menu-filtro-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.menu-filtro-titulo {
+    margin-bottom: 4px;
+    color: #858593;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+/* OPCIONES */
+
+.menu-filtro-grupo button {
+    width: 100%;
+    padding: 9px 10px;
+
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 7px;
+
+    color: #c4c4ce;
+    text-align: left;
+    font-size: 13px;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.menu-filtro-grupo button:hover {
+    background-color: #30303a;
+    border-color: #41414d;
+    color: white;
+}
+
+
+/* ========================================
+   LISTA DE TAREAS
+======================================== */
+
 .tareas-contenedor {
     width: 100%;
     max-width: 650px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #696868;
-    border-radius: 32px;
-    padding: 20px;
+    justify-content: flex-start;
+    align-items: stretch;
+    background-color: #29292f;
+    border-radius: 18px;
+    padding: 16px;
     gap: 12px;
 }
 
-/* Cada tarea con diseño Grid para mantener los botones fijos a la derecha */
+/* ========================================
+   TARJETA DE CADA TAREA
+======================================== */
+
 .tarea-contenedor {
     width: 100%;
     max-width: 610px;
-    min-height: 90px;
+    min-height: 100px;
     height: auto;
-    background-color: #525151;
-    border-radius: 24px;
-    display: grid;
-    grid-template-columns: auto 1fr auto auto auto;
-    /* ID, Título flexible, y 3 botones fijos */
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    padding: 18px 20px;
+
+    background-color: #1c1c24;
+    border: 1px solid #30303a;
+    border-radius: 12px;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.tarea-contenedor:hover {
+    border-color: #494958;
+    background-color: #20202a;
+}
+
+/* ========================================
+   CABECERA DE LA TAREA
+======================================== */
+
+.tarea-cabecera {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
     gap: 15px;
-    overflow: hidden;
-    transition: background-color 0.3s ease;
 }
 
-/* ID de la tarea */
-.tarea-contenedor>h1:first-of-type {
-    margin: 0;
-    font-size: 18px;
-    min-width: 25px;
+.tarea-titulo-contenedor {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
 }
 
-/* Título de la tarea: ocupa el espacio flexible restante y corta o rompe línea si es muy largo */
-.tarea-contenedor>h1:nth-of-type(2) {
+.tarea-cabecera .tarea-id {
     margin: 0;
-    font-size: 18px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #777786;
+    white-space: nowrap;
+}
+
+.tarea-titulo-contenedor h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #ededf0;
     overflow-wrap: anywhere;
     min-width: 0;
-    /* Vital para que Grid gestione bien el espacio flexible del texto */
-}
-
-/* Botones de cada tarea (fijos y alineados a la derecha) */
-.boton-tarea {
-    flex-shrink: 0;
-    border: 1px solid #858585;
-    border-radius: 32px;
-    padding: 8px 16px;
-    background-color: #696868;
-    color: #ffffff;
-    font-family: 'system-ui', sans-serif;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    /* Evita que el texto del botón se rompa */
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.2s ease;
-}
-
-
-.boton-tarea:hover {
-    background-color: #7b7a7a;
-    border-color: #b0b0b0;
-    transform: translateY(-2px);
-}
-
-.boton-tarea.is-completada {
-    background-color: #343434;
-    border: 1px solid #6b9b78;
-    color: #a8ddb5;
-}
-
-.boton-tarea.is-completada:hover {
-    background-color: #404940;
-    border-color: #85bd93;
 }
 
 .tarea-completada {
     text-decoration: line-through;
-    opacity: 0.7;
+    opacity: 0.55;
 }
 
-/* Contenedor principal de la sección del input */
-.tarea-input-contenedor {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-    max-width: 400px;
+/* ========================================
+   BOTONES DE LAS TAREAS
+======================================== */
+
+.boton-tarea {
+    flex-shrink: 0;
+    border: 1px solid #41414d;
+    border-radius: 8px;
+    padding: 8px 13px;
+    background-color: #292933;
+    color: #c4c4ce;
+    font-family: 'system-ui', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
 }
 
-/* Barra de creación de tareas */
-.tarea-input-wrapper {
+.boton-tarea:hover {
+    background-color: #383844;
+    border-color: #646477;
+    color: white;
+    transform: translateY(-1px);
+}
+
+.boton-editar {
+    padding: 7px 11px;
+    font-size: 17px;
+}
+
+.boton-eliminar:hover {
+    background-color: #451f25;
+    border-color: #a34b56;
+    color: #fca5a5;
+}
+
+/* Botón de completar */
+
+.boton-tarea.is-completada {
+    background-color: #193b2a;
+    border: 1px solid #39734e;
+    color: #a8ddb5;
+}
+
+.boton-tarea.is-completada:hover {
+    background-color: #245238;
+    border-color: #85bd93;
+}
+
+/* ========================================
+   INFORMACIÓN DE LA TAREA
+======================================== */
+
+.tarea-informacion {
     display: flex;
     align-items: center;
-    background-color: #2b2b2b;
-    border-radius: 6px;
-    padding: 10px 14px;
+    flex-wrap: wrap;
     gap: 10px;
-    width: 100%;
-    transition: background-color 0.2s ease;
 }
 
-.tarea-input-wrapper:hover {
-    background-color: #333333;
+/* ========================================
+   PRIORIDADES
+======================================== */
+
+.prioridad {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 7px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    width: fit-content;
 }
 
-/* Icono del signo más */
-.tarea-icono {
-    color: #888888;
-    font-size: 18px;
-    font-weight: 500;
-    user-select: none;
+.prioridad-baja {
+    background-color: #14532d;
+    color: #86efac;
 }
 
-.tarea-icono:hover {
-    cursor: pointer;
+.prioridad-media {
+    background-color: #713f12;
+    color: #fde047;
 }
 
-/* Input dentro de la barra */
-.tarea-input-wrapper input {
+.prioridad-alta {
+    background-color: #7f1d1d;
+    color: #fca5a5;
+}
+
+/* Selector de prioridades */
+
+.prioridad-selector {
+    display: flex;
+    align-items: center;
+    gap: px;
+    padding: 5px;
+    background-color: #202127;
+    border: 1px solid #383943;
+    border-radius: 12px;
+    width: fit-content;
+}
+
+.prioridad-opcion {
+    padding: 8px 15px;
+    border: 1px solid transparent;
+    border-radius: 8px;
     background: transparent;
-    border: none;
-    outline: none;
-    color: #ffffff;
-    font-size: 15px;
-    width: 100%;
+    color: #a1a1aa;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-.tarea-input-wrapper input::placeholder {
-    color: #777777;
-    opacity: 1;
+.prioridad-opcion.baja:hover,
+.prioridad-opcion.baja.seleccionada {
+    background-color: #14532d;
+    border-color: #22c55e;
+    color: #86efac;
 }
 
-/* Menú de edición: se despliega ocupando todo el ancho inferior (grid-column completo) */
+.prioridad-opcion.media:hover,
+.prioridad-opcion.media.seleccionada {
+    background-color: #713f12;
+    border-color: #eab308;
+    color: #fde047;
+}
+
+.prioridad-opcion.alta:hover,
+.prioridad-opcion.alta.seleccionada {
+    background-color: #7f1d1d;
+    border-color: #ef4444;
+    color: #fca5a5;
+}
+
+.prioridad-opcion:focus-visible {
+    outline: 2px solid #818cf8;
+    outline-offset: 3px;
+}
+
+/* ========================================
+   FECHA DE VENCIMIENTO
+======================================== */
+
+.fecha-vencimiento {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #a1a1aa;
+    font-size: 12px;
+    padding: 5px 9px;
+    background-color: #292933;
+    border: 1px solid #383843;
+    border-radius: 7px;
+}
+
+/* ========================================
+   FECHAS DE VENCIMIENTO
+======================================== */
+
+.fecha-vencida {
+    color: #f87171;
+    background-color: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.fecha-vencida span {
+    color: #ef4444;
+}
+
+/* ========================================
+   ESTADO DE PAPELERA
+======================================== */
+
+.estado-papelera {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 7px;
+    background-color: #3b2930;
+    color: #fda4af;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* ========================================
+   ACCIONES DE LA TAREA
+======================================== */
+
+.tarea-acciones {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid #30303a;
+}
+
+.tarea-acciones p {
+    margin: 0 auto 0 0;
+    font-size: 12px;
+}
+
+/* ========================================
+   MENSAJES
+======================================== */
+
+.menu-editar-tarea p.mensaje-positivo,
+.tarea-acciones p.mensaje-positivo {
+    color: #4ade80;
+}
+
+.menu-editar-tarea p.mensaje-negativo,
+.tarea-acciones p.mensaje-negativo {
+    color: #f87171;
+}
+
+/* ========================================
+   MENÚ DE EDICIÓN
+======================================== */
+
 .menu-editar-tarea {
-    grid-column: 1 / -1;
-    /* Ocupa todas las columnas del grid principal */
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 15px;
+
     width: 100%;
     margin-top: 5px;
-    background-color: #424141;
-    border: 1px solid #636262;
-    border-radius: 16px;
 
-    /* Propiedades para la transición suave de apertura/cierre */
+    background-color: #17171e;
+    border: 1px solid #383843;
+    border-radius: 12px;
+
     max-height: 0;
     opacity: 0;
     transform: translateY(-8px);
     overflow: hidden;
     padding: 0 16px;
+
     transition:
-        max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        max-height 0.35s ease,
         opacity 0.3s ease,
         transform 0.3s ease,
-        padding 0.3s ease,
-        border-color 0.3s ease;
+        padding 0.3s ease;
 }
 
-/* Clase activa para desplegar el menú de edición con transición */
-.menu-filtro-tarea.open,
+/* Apertura del editor */
+
 .tarea-contenedor:has(.menu-editar-tarea) .menu-editar-tarea {
-    max-height: 220px;
+    max-height: 600px;
     opacity: 1;
     transform: translateY(0);
     padding: 16px;
-    border-color: #636262;
 }
 
-/* Título del menú de edición */
+/* Título del editor */
+
 .menu-editar-tarea h3 {
     margin: 0;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
     color: #e0e0e0;
 }
 
-/* Input del menú de edición */
+/* Campos del editor */
+
+.editar-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.editar-campo label {
+    color: #a1a1aa;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Inputs del editor */
+
 .menu-editar-tarea input {
     width: 100%;
     min-width: 0;
     padding: 10px 14px;
-    border: 1px solid #696868;
-    border-radius: 12px;
-    background-color: #3b3a3a;
+    border: 1px solid #383843;
+    border-radius: 8px;
+    background-color: #25252e;
     color: white;
     font-size: 14px;
     outline: none;
@@ -363,46 +748,181 @@ button:hover {
 }
 
 .menu-editar-tarea input:focus {
-    border-color: #a0a0a0;
+    border-color: #818cf8;
 }
 
 .menu-editar-tarea input::placeholder {
-    color: #999999;
+    color: #999;
 }
 
-/* Botones del menú de edición */
-.menu-editar-tarea button {
-    align-self: flex-start;
-    padding: 8px 16px;
-    border-radius: 20px;
-    background-color: #696868;
-    color: white;
-    font-weight: 600;
+/* Selector de fecha */
+
+.menu-editar-tarea input[type="date"] {
+    color-scheme: dark;
+}
+
+/* ========================================
+   BOTONES DEL EDITOR
+======================================== */
+
+.editar-acciones {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.editar-acciones button {
+    padding: 9px 16px;
+    border-radius: 8px;
+    background-color: #30303a;
+    border: 1px solid #484854;
+    color: #d4d4dc;
     font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
-    border: 1px solid #858585;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    transition: background-color 0.2s ease;
 }
 
-.menu-editar-tarea button:hover,
-.menu-filtro-tarea button:hover {
-    background-color: #7b7a7a;
-    transform: translateY(-1px);
+.editar-acciones button:hover {
+    background-color: #41414d;
 }
 
-
-.menu-editar-tarea p.mensaje-positivo {
-    color: rgb(44, 153, 44);
+.editar-acciones button:last-child {
+    background-color: #4f46e5;
+    border-color: #6366f1;
+    color: white;
 }
 
-.menu-editar-tarea p.mensaje-negativo {
-    color: red;
+.editar-acciones button:last-child:hover {
+    background-color: #4338ca;
 }
 
+.menu-editar-tarea p {
+    margin: 0;
+    font-size: 12px;
+}
 
+/* ========================================
+   ACCESIBILIDAD
+======================================== */
 
-/* Adaptación a pantallas pequeñas */
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid #818cf8;
+    outline-offset: 3px;
+}
+
+/* ========================================
+   BUSCADOR DE TAREAS
+======================================== */
+
+.buscar-tareas-contenedor {
+    width: 100%;
+    max-width: 650px;
+    margin-bottom: 18px;
+}
+
+.buscar-tareas-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    width: 100%;
+    padding: 11px 15px;
+
+    background-color: #29292f;
+    border: 1px solid #383843;
+    border-radius: 10px;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.buscar-tareas-wrapper:hover {
+    background-color: #303038;
+    border-color: #494958;
+}
+
+.buscar-tareas-wrapper:focus-within {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.buscar-tareas-icono {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #858593;
+    font-size: 23px;
+
+    user-select: none;
+}
+
+.buscar-tareas-wrapper input {
+    flex: 1;
+    min-width: 0;
+
+    padding: 2px 0;
+
+    background: transparent;
+    border: none;
+    outline: none;
+    border-radius: 0;
+
+    color: #ededf0;
+    font-family: 'system-ui', sans-serif;
+    font-size: 14px;
+}
+
+.buscar-tareas-wrapper input::placeholder {
+    color: #777786;
+}
+
+.buscar-tareas-wrapper input:focus-visible {
+    outline: none;
+}
+
+.buscar-tareas-limpiar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 25px;
+    height: 25px;
+    padding: 0;
+
+    background-color: transparent;
+    border: none;
+    border-radius: 6px;
+
+    color: #858593;
+    font-size: 21px;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.buscar-tareas-limpiar:hover {
+    background-color: #41414d;
+    color: white;
+}
+
+.buscar-tareas-limpiar:focus-visible {
+    outline: 2px solid #818cf8;
+    outline-offset: 2px;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
 @media (max-width: 700px) {
+
     .sidebar {
         width: 190px;
         padding: 16px 10px;
@@ -417,15 +937,65 @@ button:hover {
     }
 
     .tarea-contenedor {
-        grid-template-columns: auto 1fr;
-        /* Simplifica el grid en móviles si es necesario */
-        gap: 10px;
         padding: 14px;
+        gap: 12px;
     }
 
-    /* En pantallas muy estrechas los botones pasan a una línea propia ordenados o se mantienen */
+    .tarea-titulo-contenedor h2 {
+        font-size: 14px;
+    }
+
+    .tarea-acciones {
+        justify-content: flex-start;
+    }
+
     .boton-tarea {
-        padding: 6px 12px;
+        padding: 7px 10px;
         font-size: 12px;
+    }
+
+    .editar-acciones {
+        justify-content: flex-start;
+    }
+
+    .buscar-tareas-contenedor {
+        margin-bottom: 14px;
+    }
+
+    .buscar-tareas-wrapper {
+        padding: 10px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .sidebar {
+        width: 145px;
+        padding: 12px 8px;
+    }
+
+    .main-content {
+        padding: 18px 10px;
+    }
+
+    .tarea-cabecera {
+        align-items: flex-start;
+    }
+
+    .tarea-titulo-contenedor {
+        gap: 7px;
+    }
+
+    .tarea-titulo-contenedor h2 {
+        font-size: 13px;
+    }
+
+    .prioridad-selector {
+        width: 100%;
+    }
+
+    .prioridad-opcion {
+        flex: 1;
+        padding: 8px 9px;
     }
 }

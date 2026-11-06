@@ -1,47 +1,36 @@
-import { useState } from "react";
-
 import type { tarea } from "../../types/tarea.ts"
+import type { PrioridadId } from "../../types/prioridades.ts";
+import { usePrioridad } from "../../hooks/usePrioridad.ts";
+import { useFormularioTarea } from "../../hooks/useFormularioTarea.ts";
+import { SelectorPrioridadComponente } from "./SelectorPrioridadComponente.tsx";
+import { InputBarraBusqueda } from "./InputBarraBusqueda.tsx";
 
 
-export function FormularioTareaComponent({ handleClickAniadirFn, tareasFiltradas}: { handleClickAniadirFn : (titulo: string) => void , tareasFiltradas : tarea[]}) {
+export function FormularioTareaComponent({ handleClickAniadirFn, tareasFiltradas }:
+    {
+        handleClickAniadirFn:
+        (titulo: string, prioridad: PrioridadId, fechaVencimiento: string | null) => void,
+        tareasFiltradas: tarea[]
+    }) {
 
 
-    const [textoConfirm, setTextoConfirm] = useState("");
-    const [nombre, setNombre] = useState("");
-
-    const handleClickNombre = (() => {
-
-        const repetido = tareasFiltradas.filter((tarea) => {
-
-            if(tarea.titulo === nombre.trim()){
-                return true
-            }
-
-            return false;
-
-        })
-
-        if (nombre.trim().length > 0 && repetido.length == 0) {
-
-            handleClickAniadirFn(nombre.trim());
-            setTextoConfirm("Tarea creada");
-            setNombre("");
-            
 
 
-        } else if (repetido.length > 0) {
+    const { prioridad, handleClickSetPrioridad } = usePrioridad(2);
 
-            setTextoConfirm("Hay otra tarea con el mismo nombre");
-
-        }else {
-
-            setTextoConfirm("No se ha podido crear la tarea");
-
-        }
-
-
-    })
-
+    const {
+        textoConfirm,
+        nombre,
+        fechaVencimiento,
+        handleClickNombre,
+        handleOnChangeNombre,
+        handleOnChangeFecha
+    } = useFormularioTarea(
+        {
+            handleClickAniadirFn,
+            tareasFiltradas,
+            prioridad
+        });
 
 
 
@@ -53,7 +42,9 @@ export function FormularioTareaComponent({ handleClickAniadirFn, tareasFiltradas
         <>
 
             <section className="tarea-input-contenedor">
+
                 <div className="tarea-input-wrapper">
+
                     <button
                         type="button"
                         onClick={handleClickNombre}
@@ -61,16 +52,34 @@ export function FormularioTareaComponent({ handleClickAniadirFn, tareasFiltradas
                     >
                         +
                     </button>
-                    <input
-                        type="text"
+
+                    <InputBarraBusqueda
                         id="nombre-tarea"
                         name="nombre-tarea"
-                        onChange={(e) => setNombre(e.target.value)}
+                        funcion={((e) => handleOnChangeNombre(e))}
                         value={nombre}
                         placeholder="Añadir tarea"
                     />
+
+                    
+
+                    <SelectorPrioridadComponente
+
+                        prioridad={prioridad}
+                        handleClickSetPrioridad={handleClickSetPrioridad}
+
+                    />
+
+                    <input
+                        type="date"
+                        value={fechaVencimiento}
+                        onChange={(e) => handleOnChangeFecha(e)}
+                    />
+
                 </div>
+
                 <p>{textoConfirm}</p>
+
             </section>
 
         </>

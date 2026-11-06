@@ -1,18 +1,39 @@
-import { FormularioTareaComponent } from "./componentes/formularioTareaComponente.tsx"
-import { TareaComponente } from "./componentes/tareaComponente.tsx"
-import { AsideBar } from "./asideBar.tsx"
+import { FormularioTareaComponent } from "./componentes/FormularioTareaComponente.tsx"
+import { TareaComponente } from "./componentes/TareaComponente.tsx"
+import { AsideBar } from "./componentes/AsideBar.tsx"
 import { useTareas } from "../hooks/useTarea.ts";
 import { useFiltroTareas } from "../hooks/useFiltroTareas.ts";
-import { FiltroOrdenacionComponente } from "./componentes/filtroOrdenacionComponente.tsx"
+import { FiltroOrdenacionComponente } from "./componentes/FiltroOrdenacionComponente.tsx"
 import { useOrdenTareas } from "../hooks/useOrdenTareas.ts";
+import { BuscarTareasPorTexto } from "./componentes/BuscarTareasPorTexto.tsx";
 
 
 export default function App() {
 
 
-  const { tareas, aniadirTarea, alternarTareaEnPapelera, eliminarTarea, modificarTituloTarea, modificarTareaCompletada } = useTareas()
-  const { filtroTareas, numTareasDisponibles, numTareasCompletadas, numTareasIncompletadas, numTareasPapelera, cambiarFiltro, tareasFiltradas, listTareasDisponibles } = useFiltroTareas({ tareas })
-  const { handleClickOrden, tareasOrdenadas } = useOrdenTareas({tareasFiltradas});
+  const {
+    tareas,
+    aniadirTarea,
+    alternarTareaEnPapelera,
+    eliminarTarea,
+    modificarTarea,
+    modificarTareaCompletada } = useTareas()
+
+  const {
+    filtroTareas,
+    numTareasDisponibles,
+    numTareasCompletadas,
+    numTareasIncompletadas,
+    numTareasPapelera,
+    cambiarFiltro,
+    tareasFiltradas,
+    listTareasDisponibles,
+    handleBuscarTarea,
+    listTareasBuscadasPorTitulo } = useFiltroTareas({ tareas })
+
+  const {
+    handleClickOrden,
+    tareasOrdenadas } = useOrdenTareas({ listTareasBuscadasPorTitulo });
 
 
   const textoNumTareas = numTareasDisponibles > 0 ? "Tienes " + numTareasDisponibles + " tareas" : "No tienes ninguna tarea"
@@ -41,34 +62,37 @@ export default function App() {
           <FormularioTareaComponent handleClickAniadirFn={aniadirTarea} tareasFiltradas={tareasFiltradas} />
         </div>
 
-          <FiltroOrdenacionComponente handleClickOrdenfn={handleClickOrden}/>
+        <BuscarTareasPorTexto handleBuscarTarea={handleBuscarTarea} />
 
-        {tareasFiltradas.length > 0 && (
+        <FiltroOrdenacionComponente handleClickOrdenfn={handleClickOrden} />
+
+        {tareasOrdenadas.length > 0 ? (
           <section className="tareas-contenedor">
 
+
+
             {
-              
-              tareasOrdenadas.map(task => {
 
-                return (
-
-                  <TareaComponente
-                    key={task.id}
-                    tarea={task}
-                    numeroFiltro={filtroTareas}
-                    listTareasDisponibles={listTareasDisponibles}
-                    handleClickAlternarTareaEnPapelera={alternarTareaEnPapelera}
-                    handleClickEliminarfn={eliminarTarea}
-                    modificarTituloTarea={modificarTituloTarea}
-                    modificarTareaCompletada={modificarTareaCompletada}
-                  />
-
-                );
-
-              })
+              tareasOrdenadas.map(task => (
+                <TareaComponente
+                  key={task.id}
+                  tarea={task}
+                  numeroFiltro={filtroTareas}
+                  listTareasDisponibles={listTareasDisponibles}
+                  handleClickAlternarTareaEnPapelera={alternarTareaEnPapelera}
+                  handleClickEliminarfn={eliminarTarea}
+                  modificarTarea={modificarTarea}
+                  modificarTareaCompletada={modificarTareaCompletada}
+                />
+              ))
 
             }
+
+
+
           </section>
+        ) : (
+          <p>No hay tareas para mostrar.</p>
         )}
       </main>
     </div>

@@ -9,10 +9,14 @@ export function useFiltroTareas({ tareas }: { tareas: tarea[] }): {
   numTareasPapelera: number,
   cambiarFiltro: (tipo_filtro: number) => void,
   tareasFiltradas: tarea[],
-  listTareasDisponibles: tarea[]
+  listTareasDisponibles: tarea[],
+  listTareasBuscadasPorTitulo:() => tarea[],
+  handleBuscarTarea: (texto: string) => void
 } {
 
   const [filtroTareas, setfiltroTareas] = useState(0)
+  const [tituloTareaBuscar, setTituloTareaBuscar] = useState("");
+
 
   const numTareasDisponibles = tareas.filter(
     tarea => !tarea.inTrush
@@ -29,6 +33,12 @@ export function useFiltroTareas({ tareas }: { tareas: tarea[] }): {
   const numTareasPapelera = tareas.filter(
     tarea => tarea.inTrush
   ).length;
+
+  const handleBuscarTarea = ((texto: string) => {
+
+    setTituloTareaBuscar(texto)
+
+  })
 
   const cambiarFiltro = ((tipo_filtro: number) => {
 
@@ -55,11 +65,43 @@ export function useFiltroTareas({ tareas }: { tareas: tarea[] }): {
 
   });
 
+   const listTareasBuscadasPorTitulo = (() => {
+
+    if (tituloTareaBuscar) {
+      return tareasFiltradas.filter(tarea => {
+
+        return tarea.titulo.toLowerCase().includes(
+
+          tituloTareaBuscar.trim().toLowerCase()
+
+        );
+
+      });
+    } else{
+      return tareasFiltradas
+    }
+
+  });
+
   const listTareasDisponibles = tareas.filter(tarea => {
 
     return !tarea.inTrush;
 
   });
 
-  return { filtroTareas, numTareasDisponibles, numTareasCompletadas, numTareasIncompletadas, numTareasPapelera, cambiarFiltro, tareasFiltradas, listTareasDisponibles }
+
+
+
+  return {
+    filtroTareas,
+    numTareasDisponibles,
+    numTareasCompletadas,
+    numTareasIncompletadas,
+    numTareasPapelera,
+    cambiarFiltro,
+    tareasFiltradas,
+    listTareasBuscadasPorTitulo,
+    listTareasDisponibles,
+    handleBuscarTarea
+  }
 }

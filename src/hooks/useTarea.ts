@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import type { tarea } from "../types/tarea";
+import type { PrioridadId } from "../types/prioridades";
 
 
 
 export function useTareas(): {
-    tareas: tarea[],
-    aniadirTarea: (titulo: string) => void,
-    alternarTareaEnPapelera:(id: number) => void,
-    eliminarTarea: (id: number) => void,
-    modificarTituloTarea: (id: number, titulo: string) => void,
-    modificarTareaCompletada: (id: number, completada: boolean) => void
+  tareas: tarea[],
+  aniadirTarea: (titulo: string, prioridad:PrioridadId, fechaVencimiento: string | null) => void,
+  alternarTareaEnPapelera: (id: number) => void,
+  eliminarTarea: (id: number) => void,
+  modificarTarea: (id: number, titulo: string, nuevaPrioridad: PrioridadId, nuevaFechaVencimiento: string | null) => void,
+  modificarTareaCompletada: (id: number, completada: boolean) => void,
 } {
 
   const [tareas, setTareas] = useState<tarea[]>([]);
@@ -30,7 +31,7 @@ export function useTareas(): {
 
   }), [tareas])
 
-  const aniadirTarea = ((tarea_añadir: string) => {
+  const aniadirTarea = ((titulo: string, prioridad: PrioridadId, fechaVencimiento: string | null) => {
 
     const nuevoId = tareas.length > 0
       ? Math.max(...tareas.map(tarea => tarea.id)) + 1
@@ -39,8 +40,10 @@ export function useTareas(): {
     const tarea_obj: tarea = {
 
       id: nuevoId,
-      titulo: String(tarea_añadir),
+      titulo: String(titulo),
       completada: false,
+      prioridad: prioridad,
+      fechaVencimiento: fechaVencimiento,
       inTrush: false
 
     }
@@ -57,19 +60,16 @@ export function useTareas(): {
       if (tarea.id === id) {
 
         return {
-          id: tarea.id,
-          titulo: tarea.titulo,
-          completada: tarea.completada,
+          ...tarea,
           inTrush: !tarea.inTrush
         };
 
-      } else {
-
-        return tarea;
-
       }
+
+      return tarea;
+
     });
-    
+
     setTareas(nuevasTareas);
 
   })
@@ -85,26 +85,25 @@ export function useTareas(): {
 
   })
 
-  const modificarTituloTarea = (id: number, nuevoTitulo: string) => {
+  const modificarTarea = (id: number, nuevoTitulo: string, nuevaPrioridad: PrioridadId, nuevaFechaVencimiento: string | null) => {
 
     const nuevasTareas = tareas.map((tarea) => {
 
       if (tarea.id === id) {
 
         return {
-          id: tarea.id,
+          ...tarea,
           titulo: nuevoTitulo,
-          completada: tarea.completada,
-          inTrush: tarea.inTrush
+          prioridad:nuevaPrioridad,
+          fechaVencimiento:nuevaFechaVencimiento
         };
 
-      } else {
-
-        return tarea;
-
       }
+
+      return tarea;
+
     });
-    
+
     setTareas(nuevasTareas);
   };
 
@@ -115,21 +114,18 @@ export function useTareas(): {
       if (tarea.id === id) {
 
         return {
-          id: tarea.id,
-          titulo: tarea.titulo,
+          ...tarea,
           completada: completada,
-          inTrush: tarea.inTrush
         };
 
-      } else {
-
+      }
         return tarea;
 
-      }
+      
     });
 
     setTareas(nuevasTareas);
   };
 
-  return {tareas, aniadirTarea, alternarTareaEnPapelera, eliminarTarea, modificarTituloTarea, modificarTareaCompletada }
+  return { tareas, aniadirTarea, alternarTareaEnPapelera, eliminarTarea, modificarTarea, modificarTareaCompletada }
 }
