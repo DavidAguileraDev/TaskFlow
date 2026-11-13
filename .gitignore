@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Symfony local environment
+/api/backend_taskflow/.env.local
+/api/backend_taskflow/.env.*.local
