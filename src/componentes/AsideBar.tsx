@@ -1,5 +1,5 @@
+import { filtros } from "../dashboard/constantes/filtros";
 
-import { filtros } from "../constantes/filtros.ts";
 
 export function AsideBar({
     tareasDisponibles,

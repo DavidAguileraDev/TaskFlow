@@ -1,8 +1,8 @@
-import type { tarea } from "../../types/tarea";
-import { useEdicionTarea } from "../../hooks/useEdicionTareas";
 import { SelectorPrioridadComponente } from "./SelectorPrioridadComponente";
-import { type PrioridadId } from "../../types/prioridades";
-import { estaTareaVencida } from "../../utils/fechaTarea";
+import type { tarea } from "../types/tarea";
+import { useEdicionTarea } from "../hooks/useEdicionTareas";
+import type { PrioridadId } from "../types/prioridades";
+import { estaTareaVencida } from "../utils/fechaTarea";
 
 export function TareaComponente({ tarea, numeroFiltro, listTareasDisponibles, handleClickAlternarTareaEnPapelera, handleClickEliminarfn, modificarTareaCompletada, modificarTarea }:
     {

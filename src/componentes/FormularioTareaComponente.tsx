@@ -1,9 +1,10 @@
-import type { tarea } from "../../types/tarea.ts"
-import type { PrioridadId } from "../../types/prioridades.ts";
-import { usePrioridad } from "../../hooks/usePrioridad.ts";
-import { useFormularioTarea } from "../../hooks/useFormularioTarea.ts";
+
 import { SelectorPrioridadComponente } from "./SelectorPrioridadComponente.tsx";
 import { InputBarraBusqueda } from "./InputBarraBusqueda.tsx";
+import type { tarea } from "../types/tarea.ts";
+import type { PrioridadId } from "../types/prioridades.ts";
+import { usePrioridad } from "../hooks/usePrioridad.ts";
+import { useFormularioTarea } from "../hooks/useFormularioTarea.ts";
 
 
 export function FormularioTareaComponent({ handleClickAniadirFn, tareasFiltradas }:

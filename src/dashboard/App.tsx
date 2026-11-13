@@ -1,11 +1,11 @@
-import { FormularioTareaComponent } from "./componentes/FormularioTareaComponente.tsx"
-import { TareaComponente } from "./componentes/TareaComponente.tsx"
-import { AsideBar } from "./componentes/AsideBar.tsx"
+import { FormularioTareaComponent } from "../componentes/FormularioTareaComponente.tsx"
+import { TareaComponente } from "../componentes/TareaComponente.tsx"
+import { AsideBar } from "../componentes/AsideBar.tsx"
 import { useTareas } from "../hooks/useTarea.ts";
 import { useFiltroTareas } from "../hooks/useFiltroTareas.ts";
-import { FiltroOrdenacionComponente } from "./componentes/FiltroOrdenacionComponente.tsx"
+import { FiltroOrdenacionComponente } from "../componentes/FiltroOrdenacionComponente.tsx"
 import { useOrdenTareas } from "../hooks/useOrdenTareas.ts";
-import { BuscarTareasPorTexto } from "./componentes/BuscarTareasPorTexto.tsx";
+import { BuscarTareasPorTexto } from "../componentes/BuscarTareasPorTexto.tsx";
 
 
 export default function App() {
