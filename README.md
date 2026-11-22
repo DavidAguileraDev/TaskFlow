@@ -17,20 +17,19 @@ The project is evolving towards a frontend-backend architecture, keeping React a
 ## Screenshots
 
 ### Dashboard
+Vista principal de la aplicación y gestión de tareas.
 
-The main application interface and task management.
+![Dashboard de TaskFlow](docs/screenshots/Dashboard.png)
 
+### Barra lateral
+Navegación y acceso a las diferentes secciones de la aplicación.
 
+![AsideBar de TaskFlow](docs/screenshots/AsideBar.png)
 
-### Sidebar
+### Filtros
+Organización de las tareas según su estado.
 
-Navigation and access to the different application sections.
-
-
-
-### Filters
-
-Organizing tasks according to their status.
+![Filtros de TaskFlow](docs/screenshots/Filters.png)
 
 
 
