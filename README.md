@@ -217,6 +217,7 @@ Custom React hooks separate authentication logic from retrieving and maintaining
 | ------- | --------------------------------------------------------------------------------------- | --------- |
 | v0.5.0  | Priorities, due dates, search, sorting, and overdue task detection                      | Completed |
 | v0.5.1  | Symfony Security integration, session-based authentication, and current user management | Completed |
+| v0.6.0  | Full db integration (CRUD)                                                              | Pending   |
 
 ### Coming Next: v0.6.0
 
