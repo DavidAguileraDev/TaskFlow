@@ -1,145 +1,145 @@
 # TaskFlow
 
-### Organiza tus tareas. Controla tus prioridades. Gestiona tu tiempo.
+### Organize your tasks. Manage your priorities. Take control of your time.
 
-TaskFlow es una aplicación de gestión de tareas desarrollada con **React, TypeScript y Symfony**, diseñada para facilitar la organización del trabajo diario mediante una interfaz intuitiva y herramientas que permiten gestionar, clasificar y supervisar tareas.
+TaskFlow is a task management application built with **React, TypeScript, and Symfony**, designed to make everyday work organization easier through an intuitive interface and tools for managing, categorizing, and tracking tasks.
 
-El proyecto nace como una oportunidad para poner en práctica conceptos de desarrollo frontend y backend, arquitectura de componentes, hooks personalizados, gestión del estado, autenticación y comunicación entre aplicaciones mediante API REST.
+This project is an opportunity to put frontend and backend development concepts into practice, including component architecture, custom React hooks, state management, authentication, and API communication.
 
 ---
 
-## Vista general
+## Overview
 
-**TaskFlow v5.1** incorpora un sistema de autenticación integrado con Symfony Security, permitiendo registrar usuarios e iniciar sesión mediante autenticación basada en sesiones.
+**TaskFlow v0.5.1** introduces an authentication system integrated with Symfony Security, allowing users to register and sign in using server-side session-based authentication.
 
-El proyecto continúa evolucionando hacia una arquitectura frontend-backend, manteniendo React y TypeScript en el cliente y utilizando Symfony como backend.
+The project is evolving towards a frontend-backend architecture, keeping React and TypeScript on the client side while using Symfony as the backend.
 
-## Capturas de pantalla
+## Screenshots
 
 ### Dashboard
 
-Vista principal de la aplicación y gestión de tareas.
+The main application interface and task management.
 
-![Dashboard de TaskFlow](docs/screenshots/Dashboard.png)
 
-### Barra lateral
 
-Navegación y acceso a las diferentes secciones de la aplicación.
+### Sidebar
 
-![AsideBar de TaskFlow](docs/screenshots/AsideBar.png)
+Navigation and access to the different application sections.
 
-### Filtros
 
-Organización de las tareas según su estado.
 
-![Filtros de TaskFlow](docs/screenshots/Filters.png)
+### Filters
 
----
+Organizing tasks according to their status.
 
-## Funcionalidades principales
 
-### Gestión de tareas
-
-- **Gestión de tareas (CRUD):** creación, edición y eliminación de tareas.
-- **Prioridades:** clasificación en prioridad baja, media y alta.
-- **Fechas de vencimiento:** asignación y modificación de fechas límite.
-- **Detección de tareas vencidas:** identificación visual de tareas cuya fecha de vencimiento ha pasado.
-- **Buscador:** búsqueda de tareas por título.
-- **Filtros:** visualización de todas las tareas, pendientes, completadas y papelera.
-- **Ordenación:** organización por nombre, prioridad y fecha de vencimiento.
-- **Papelera:** eliminación lógica, restauración y eliminación permanente de tareas.
-- **Persistencia local:** almacenamiento de las tareas mediante LocalStorage.
-
-### Autenticación y usuarios
-
-- **Registro de usuarios:** creación de cuentas mediante el backend Symfony.
-- **Inicio de sesión:** autenticación mediante Symfony Security.
-- **Gestión de sesiones:** mantenimiento de la autenticación mediante sesiones PHP y cookies.
-- **Consulta del usuario actual:** recuperación de los datos del usuario autenticado mediante el endpoint `/api/me`.
-- **Comunicación segura entre frontend y backend:** configuración de CORS y envío de cookies con credenciales.
 
 ---
 
-## Tecnologías utilizadas
+## Main Features
 
-| Tecnología | Uso |
-|---|---|
-| React | Construcción de la interfaz |
-| TypeScript | Tipado estático |
-| Vite | Entorno de desarrollo y compilación |
-| CSS | Diseño y estilos |
-| Symfony | Backend y lógica de servidor |
-| PHP | Lenguaje del backend |
-| Symfony Security | Autenticación y gestión de sesiones |
-| MySQL | Base de datos |
-| LocalStorage | Persistencia local de tareas |
-| Git | Control de versiones |
+### Task Management
+
+- **Task CRUD:** create, edit, and delete tasks.
+- **Priorities:** classify tasks as low, medium, or high priority.
+- **Due dates:** assign and modify task deadlines.
+- **Overdue task detection:** visually identify tasks whose due dates have passed.
+- **Search:** find tasks by title.
+- **Filters:** display all tasks, pending tasks, completed tasks, and trashed tasks.
+- **Sorting:** organize tasks by name, priority, and due date.
+- **Trash management:** soft deletion, task restoration, and permanent deletion.
+- **Local persistence:** store tasks using LocalStorage.
+
+### Authentication and User Management
+
+- **User registration:** create accounts through the Symfony backend.
+- **Login:** authenticate users using Symfony Security.
+- **Session management:** maintain authentication through PHP sessions and cookies.
+- **Current user retrieval:** retrieve authenticated user information through the `/api/me` endpoint.
+- **Frontend-backend communication:** configure CORS and credentialed requests to handle session cookies.
 
 ---
 
-## Instalación y ejecución
+## Technologies Used
 
-### Requisitos
+| Technology       | Purpose                                |
+| ---------------- | -------------------------------------- |
+| React            | User interface development             |
+| TypeScript       | Static typing                          |
+| Vite             | Development environment and build tool |
+| CSS              | Styling and layout                     |
+| Symfony          | Backend and server-side logic          |
+| PHP              | Backend programming language           |
+| Symfony Security | Authentication and session management  |
+| MySQL            | Database                               |
+| LocalStorage     | Local task persistence                 |
+| Git              | Version control                        |
 
-- Node.js y npm.
-- PHP y Composer.
-- Symfony CLI (recomendado).
-- MySQL y Docker para el entorno de base de datos configurado.
+---
 
-### 1. Clonar el repositorio
+## Installation and Setup
+
+### Requirements
+
+- Node.js and npm.
+- PHP and Composer.
+- Symfony CLI (recommended).
+- MySQL and Docker for the configured database environment.
+
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/DavidAguileraDev/TaskFlow.git
 ```
 
-### 2. Acceder al proyecto
+### 2. Navigate to the project directory
 
 ```bash
 cd TaskFlow
 ```
 
-### 3. Instalar las dependencias del frontend
+### 3. Install frontend dependencies
 
 ```bash
 npm install
 ```
 
-### 4. Instalar las dependencias del backend
+### 4. Install backend dependencies
 
 ```bash
 cd api/backend_taskflow
 composer install
 ```
 
-### 5. Configurar el entorno
+### 5. Configure the environment
 
-Configura las variables de entorno del backend, incluyendo la conexión a la base de datos y el secreto de la aplicación.
+Configure the backend environment variables, including the database connection and application secret.
 
-No incluyas archivos `.env.local`, `.env.dev.local` ni credenciales privadas en el repositorio.
+Do not commit `.env.local`, `.env.dev.local`, or any files containing private credentials.
 
-### 6. Iniciar Symfony
+### 6. Start the Symfony server
 
-Desde el directorio del backend:
+From the backend directory:
 
 ```bash
 symfony server:start
 ```
 
-### 7. Iniciar React
+### 7. Start the React development server
 
-Desde la raíz del proyecto:
+From the project root directory:
 
 ```bash
 npm run dev
 ```
 
-Vite proporcionará una dirección local para acceder a la aplicación desde el navegador.
+Vite will provide a local URL to access the application through your browser.
 
 ---
 
-## Estructura del proyecto
+## Project Structure
 
-El código está organizado para separar responsabilidades y facilitar el mantenimiento y la ampliación de la aplicación.
+The project is organized to separate responsibilities and make the application easier to maintain and extend.
 
 ### Frontend
 
@@ -147,6 +147,7 @@ El código está organizado para separar responsabilidades y facilitar el manten
 src/
 ├── componentes/
 ├── dashboard/
+│   ├── componentes-dashboard/
 │   ├── App.tsx
 │   └── app.css
 ├── login/
@@ -161,14 +162,14 @@ src/
 └── main.tsx
 ```
 
-- **componentes:** componentes visuales reutilizables.
-- **dashboard:** interfaz principal de gestión de tareas.
-- **login:** pantallas de registro e inicio de sesión.
-- **hooks:** lógica reutilizable mediante hooks personalizados de React.
-- **types:** interfaces y tipos de TypeScript.
-- **utils:** funciones auxiliares independientes de los componentes.
-- **App.tsx:** configuración de las rutas de la aplicación.
-- **main.tsx:** punto de entrada de React.
+- **componentes:** reusable UI components.
+- **dashboard:** main task management interface.
+- **login:** registration and sign-in pages.
+- **hooks:** reusable application logic through custom React hooks.
+- **types:** TypeScript interfaces and types.
+- **utils:** helper functions independent of UI components.
+- **App.tsx:** application routing configuration.
+- **main.tsx:** React entry point.
 
 ### Backend
 
@@ -185,63 +186,68 @@ api/
     └── ...
 ```
 
-- **Controller:** endpoints y lógica de comunicación con el frontend.
-- **Entity:** entidades y modelos de datos.
-- **Security:** configuración y gestión de la autenticación.
-- **config:** configuración de Symfony y sus servicios.
-- **migrations:** migraciones de la base de datos.
+- **Controller:** API endpoints and request handling.
+- **Entity:** database entities and data models.
+- **Security:** authentication handlers and security-related logic.
+- **config:** Symfony and service configuration.
+- **migrations:** database migrations.
 
 ---
 
-## Autenticación
+## Authentication
 
-La autenticación está gestionada por Symfony Security mediante sesiones del servidor.
+Authentication is handled by Symfony Security using server-side sessions.
 
-El frontend realiza peticiones HTTP al backend y utiliza `credentials: "include"` para permitir el envío y la recepción de las cookies de sesión.
+The frontend communicates with the backend through HTTP requests and uses `credentials: "include"` to allow session cookies to be sent and received.
 
-Actualmente se utilizan los siguientes endpoints:
+The following API endpoints are currently implemented:
 
-| Método | Endpoint | Función |
-|---|---|---|
-| POST | `/api/sign-up` | Registrar un usuario |
-| POST | `/api/sign-in` | Iniciar sesión |
-| GET | `/api/me` | Consultar el usuario autenticado |
-| POST | `/api/sign-out` | Cerrar sesión |
+| Method | Endpoint        | Description                               |
+| ------ | --------------- | ----------------------------------------- |
+| POST   | `/api/sign-up`  | Register a new user                       |
+| POST   | `/api/sign-in`  | Authenticate a user                       |
+| GET    | `/api/me`       | Retrieve the currently authenticated user |
 
-En React, los hooks personalizados permiten separar la lógica de autenticación de la consulta de los datos del usuario actual.
-
----
-
-## Hoja de ruta
-
-| Versión | Objetivo | Estado |
-|---|---|---|
-| v0.5 | Prioridades, fechas, búsqueda, ordenación y detección de vencimientos | Completada |
-| v5.1 | Integración de Symfony Security, autenticación mediante sesiones y hooks de usuario | Completada |
-| v5.2 | Protección de rutas y gestión global del usuario autenticado | Pendiente |
-| v5.3 | API para la gestión de tareas e integración completa con MySQL | Pendiente |
-
-### Próximos objetivos
-
-La siguiente etapa estará centrada en seguir evolucionando la arquitectura de la aplicación:
-
-- Implementar la protección de rutas para usuarios no autenticados.
-- Centralizar el estado de autenticación y los datos del usuario.
-- Crear los endpoints necesarios para gestionar las tareas.
-- Conectar las tareas con la base de datos MySQL.
-- Sustituir progresivamente LocalStorage por persistencia en el servidor.
-- Implementar la gestión de sesiones y el cierre de sesión desde React.
-
-El objetivo es evolucionar TaskFlow hacia una aplicación completa con arquitectura frontend-backend, autenticación de usuarios y persistencia de datos en el servidor.
+Custom React hooks separate authentication logic from retrieving and maintaining the current user's information.
 
 ---
 
-## Autor
+## Roadmap
 
-Proyecto personal desarrollado como parte de mi aprendizaje y evolución en el desarrollo web.
+| Version | Goal                                                                                    | Status    |
+| ------- | --------------------------------------------------------------------------------------- | --------- |
+| v0.5.0  | Priorities, due dates, search, sorting, and overdue task detection                      | Completed |
+| v0.5.1  | Symfony Security integration, session-based authentication, and current user management | Completed |
 
-**TaskFlow — Proyecto personal de desarrollo web.**
+### Coming Next: v0.6.0
+
+The next version will focus on improving user management and access control:
+
+- Implement protected routes.
+- Redirect unauthenticated users to the sign-in page.
+- Centralize authentication state and current user information.
+- Improve session handling and logout functionality.
+
+### Future Development
+
+Further development will focus on evolving TaskFlow into a complete frontend-backend application:
+
+- Create API endpoints for task management.
+- Integrate task data with the MySQL database.
+- Replace LocalStorage with server-side persistence.
+- Implement user-specific task management.
+- Improve application architecture and maintainability.
+
+The long-term goal is to build a complete task management application with user authentication, database persistence, and a scalable frontend-backend architecture.
 
 ---
 
-<sub>Versión actual: v5.1 · En desarrollo continuo.</sub>
+## Author
+
+Personal project developed as part of my learning journey and continuous growth in web development.
+
+**TaskFlow — Personal Web Development Project.**
+
+---
+
+\<sub>Current version: v0.5.1 · Actively under development.\</sub>
