@@ -2,21 +2,21 @@ import { useState } from "react";
 import { InputBarraBusqueda } from "./InputBarraBusqueda";
 
 export function BuscarTareasPorTexto({
-    handleBuscarTarea
+    handleOnChangeBuscarTareafn
 }: {
-    handleBuscarTarea: (texto: string) => void
+    handleOnChangeBuscarTareafn: (texto: string) => void
 }) {
 
     const [texto, setTexto] = useState("");
 
     const handleOnChange = (nuevoTexto: string) => {
         setTexto(nuevoTexto);
-        handleBuscarTarea(nuevoTexto);
+        handleOnChangeBuscarTareafn(nuevoTexto);
     };
 
     const handleLimpiar = () => {
         setTexto("");
-        handleBuscarTarea("");
+        handleOnChangeBuscarTareafn("");
     };
 
     return (

@@ -8,12 +8,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class AuthController extends AbstractController
 {
-    #[Route('/api/sign-in', name: 'api_sign-in', methods: ['POST'])]
+    /*  #[Route('/api/sign-in', name: 'api_sign-in', methods: ['POST'])]
     public function signIn(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -72,9 +73,18 @@ final class AuthController extends AbstractController
                 'email' => $user->getEmail()
             ]
         ], 201);
+    } */
+
+
+    #[Route('/api/sign-in', name: 'api_sign_in', methods: ['POST'])]
+    public function signIn(): Response
+    {
+        return $this->json([
+            'error' => 'La autenticación debe gestionarla Symfony Security'
+        ], 401);
     }
 
-    #[Route('/api/sign-Up', name: 'api_sign-Up', methods: ['POST'])]
+    #[Route('/api/sign-up', name: 'api_sign-Up', methods: ['POST'])]
     public function signUp(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -90,7 +100,7 @@ final class AuthController extends AbstractController
         $email = trim($data['email'] ?? '');
         $password = $data['password'] ?? '';
         $confirmPassword = $data['confirmPassword'] ?? '';
-        $accept_terms = $data['accept_terms'] ?? '';
+        $accept_terms = $data['acceptTerms'] ?? '';
 
 
 
@@ -157,5 +167,28 @@ final class AuthController extends AbstractController
                 'email' => $user->getEmail()
             ]
         ], 201);
+    }
+
+
+    #[Route('/api/me', name: 'api_me', methods: ['GET'])]
+    public function me(): JsonResponse
+    {
+        $user = $this->getUser();
+
+        if (!$user instanceof User) {
+            return $this->json([
+                'success' => false,
+                'message' => 'No hay ningún usuario autenticado'
+            ], 401);
+        }
+
+        return $this->json([
+            'success' => true,
+            'user' => [
+                'id' => $user->getId(),
+                'name' => $user->getName(),
+                'email' => $user->getEmail()
+            ]
+        ]);
     }
 }

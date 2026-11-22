@@ -16,16 +16,18 @@ export function useEdicionTarea({ tarea, numeroFiltro, listTareasDisponibles, ha
         modificarTareaCompletada: (id: number, completada: boolean) => void
     }) {
 
+    // We take the atr of the task object
     const id = tarea.id;
     const titulo = tarea.titulo;
     const completada = tarea.completada;
     const prioridad_actual = tarea.prioridad
     const fechaVencimiento = tarea.fechaVencimiento
-    const inTrush = tarea.inTrush;
+    const inTrash = tarea.inTrash;
 
+    // Custom hook
+    const { prioridad, nombrePrioridadPorNumero, handleClickSetPrioridad } = usePrioridad(prioridad_actual);
 
-    const { prioridad, nombrePrioridad, handleClickSetPrioridad } = usePrioridad(prioridad_actual);
-
+    // States
     const [editando, setEditando] = useState(false);
     const [nuevoTitulo, setNuevoTitulo] = useState(titulo);
     const [nuevaPrioridad, setnuevaPrioridad] = useState(prioridad);
@@ -33,6 +35,7 @@ export function useEdicionTarea({ tarea, numeroFiltro, listTareasDisponibles, ha
     const [mensaje, setMensaje] = useState("");
 
 
+    // When priority change, set a new Priority
     useEffect(() => {
 
         setnuevaPrioridad(prioridad)
@@ -40,9 +43,14 @@ export function useEdicionTarea({ tarea, numeroFiltro, listTareasDisponibles, ha
     }, [prioridad])
 
 
+    // When we selected another filter option in aside bar, we close the edit menu
     useEffect(() => {
+        
         handleClickCancelar();
+
     }, [numeroFiltro])
+
+    // What we will show according to context of user 
 
     const texto = completada ? "⟲" : "✔";
 
@@ -56,18 +64,22 @@ export function useEdicionTarea({ tarea, numeroFiltro, listTareasDisponibles, ha
         ? "mensaje-positivo"
         : "mensaje-negativo";
 
+
+    // HandleOnChage for a new title
     const handleOnChangeNuevoTitulo = ((e: React.ChangeEvent<HTMLInputElement>) => {
 
         setNuevoTitulo(e.target.value)
 
     })
 
+    // HandleOnChage for a new expiration date
     const handleOnChangeNuevaFechaVencimiento = ((e: React.ChangeEvent<HTMLInputElement>) => {
 
         setnuevaFechaVencimiento(e.target.value)
 
     })
 
+    // HandleOnChage for change complete useState
     const handleClickCompletar = (() => {
 
 
@@ -75,8 +87,11 @@ export function useEdicionTarea({ tarea, numeroFiltro, listTareasDisponibles, ha
 
     })
 
+    // Depending on whether the task is in the trash: 
+    // 1.- If it's not in the trash, it sends it to the trash
+    // 2.- If it's already in the trash, it deletes it permanently.
     const handleClickEliminarOPapelera = (() => {
-        if (inTrush) {
+        if (inTrash) {
             handleClickEliminarfn(id)
         } else {
             handleClickAlternarTareaEnPapelera(id)
@@ -84,7 +99,7 @@ export function useEdicionTarea({ tarea, numeroFiltro, listTareasDisponibles, ha
     })
 
 
-
+    // If the task is in trash, we retore the task
     const handleClickRestaurar = (() => {
 
 
@@ -100,36 +115,39 @@ export function useEdicionTarea({ tarea, numeroFiltro, listTareasDisponibles, ha
 
     })
 
+
+    // Open or close the task editing menu
     const handleClickEditar = (() => {
 
         setEditando(!editando);
 
     })
 
+    // HandleClick for save the task according to the conditions
     const handleClickGuardar = (() => {
         
+        // Constants
         const tituloLimpio = nuevoTitulo.trim();
-
         const tituloModificado = tituloLimpio !== titulo;
         const prioridadModificada = prioridad_actual !== nuevaPrioridad;
         const fechaModificicada = fechaVencimiento !== nuevaFechaVencimiento;
 
-        // No se ha modificado nada
+        // Nothing has been modified
         if (!tituloModificado && !prioridadModificada && !fechaModificicada) {
             handleClickCancelar();
             return;
         }
 
-        // El título está vacío
+        // The tittle is empty
         if (nuevoTitulo.trim().length === 0) {
             setMensaje("No se puede introducir un título vacío");
             return;
         }
 
-        // Guardamos los cambios
+        // Save the changes
         modificarTarea(id, nuevoTitulo.trim(), nuevaPrioridad, nuevaFechaVencimiento);
 
-        // Mensaje según los cambios realizados
+        // Message according to changes that has been realized
         if (tituloModificado && prioridadModificada && fechaModificicada) {
             setMensaje("¡Tarea modificada con éxito!");
         } else if (fechaModificicada) {
@@ -141,6 +159,7 @@ export function useEdicionTarea({ tarea, numeroFiltro, listTareasDisponibles, ha
         }
     });
 
+    // HandleClick for close the editing menu and restart the default values
     const handleClickCancelar = (() => {
         setEditando(false)
         setNuevoTitulo(titulo)
@@ -150,6 +169,7 @@ export function useEdicionTarea({ tarea, numeroFiltro, listTareasDisponibles, ha
     })
 
 
+    // Returns variables and functions
 
     return {
         editando,
@@ -161,6 +181,7 @@ export function useEdicionTarea({ tarea, numeroFiltro, listTareasDisponibles, ha
         nombreClassName,
         botonCompletarClassName,
         mensajeClassName,
+        nombrePrioridadPorNumero,
         handleOnChangeNuevoTitulo,
         handleOnChangeNuevaFechaVencimiento,
         handleClickCompletar,
@@ -169,8 +190,6 @@ export function useEdicionTarea({ tarea, numeroFiltro, listTareasDisponibles, ha
         handleClickEditar,
         handleClickGuardar,
         handleClickCancelar,
-        prioridad,
-        nombrePrioridad,
         handleClickSetPrioridad
     }
 

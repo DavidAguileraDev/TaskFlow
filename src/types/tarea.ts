@@ -6,5 +6,5 @@ export interface tarea {
     completada: boolean,
     prioridad: PrioridadId,
     fechaVencimiento: string | null,
-    inTrush: boolean
+    inTrash: boolean
 }

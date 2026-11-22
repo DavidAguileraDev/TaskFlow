@@ -1,13 +1,20 @@
 import { useState } from "react";
 import type { AuthData } from "../types/AuthData";
+import { useNavigate } from "react-router-dom";
 
-export function useAuthUser({ proceso }: { proceso: string }) {
+export function useAuthUser({ proceso }: { proceso: "sign-in" | "sign-up" | "get-user" }) {
+
+
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
     const [acceptTerms, setAcceptTerms] = useState<boolean>(false);
     const [rememberMe, setRememberMe] = useState<boolean>(false);
+   
+
+
+    const navigate = useNavigate();
 
     const endpoint = "http://localhost:8000";
 
@@ -37,6 +44,8 @@ export function useAuthUser({ proceso }: { proceso: string }) {
         setRememberMe(e);
     };
 
+
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -52,6 +61,7 @@ export function useAuthUser({ proceso }: { proceso: string }) {
 
             const respuesta = await fetch(`${endpoint}/api/${accion}`, {
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -68,11 +78,32 @@ export function useAuthUser({ proceso }: { proceso: string }) {
             console.log(datos.message);
             console.log(datos.user);
 
+            // Redirect only when the user login succesfull
+            if (proceso === "sign-in") {
+                navigate(`/dashboard}`);
+
+            }
+
+
         } catch (error) {
             console.error("Error al conectar con el servidor:", error);
         }
     };
 
 
-    return { name, email, password, confirmPassword, acceptTerms, rememberMe, handleOnChangeName, handleOnChangeEmail, handleOnChangePassword, handleOnChangeConfirmPassword, handleOnChangeAcceptTerms, handleOnChangeRememberMe, handleSubmit }
+    return {
+        name,
+        email,
+        password,
+        confirmPassword,
+        acceptTerms,
+        rememberMe,
+        handleOnChangeName,
+        handleOnChangeEmail,
+        handleOnChangePassword,
+        handleOnChangeConfirmPassword,
+        handleOnChangeAcceptTerms,
+        handleOnChangeRememberMe,
+        handleSubmit,
+    }
 }

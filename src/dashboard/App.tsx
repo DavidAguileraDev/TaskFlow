@@ -1,15 +1,15 @@
-import { FormularioTareaComponent } from "../componentes/FormularioTareaComponente.tsx"
-import { TareaComponente } from "../componentes/TareaComponente.tsx"
-import { AsideBar } from "../componentes/AsideBar.tsx"
+import { FormularioTareaComponent } from "./componentes-dashboard/FormularioTareaComponente.tsx"
+import { TareaComponente } from "./componentes-dashboard/TareaComponente.tsx"
+import { AsideBar } from "./componentes-dashboard/AsideBar.tsx"
 import { useTareas } from "../hooks/useTarea.ts";
 import { useFiltroTareas } from "../hooks/useFiltroTareas.ts";
-import { FiltroOrdenacionComponente } from "../componentes/FiltroOrdenacionComponente.tsx"
+import { FiltroOrdenacionComponente } from "./componentes-dashboard/FiltroOrdenacionComponente.tsx"
 import { useOrdenTareas } from "../hooks/useOrdenTareas.ts";
-import { BuscarTareasPorTexto } from "../componentes/BuscarTareasPorTexto.tsx";
-
+import { BuscarTareasPorTexto } from "./componentes-dashboard/BuscarTareasPorTexto.tsx";
+import "./app.css";
+import { useCurrentUser } from "../hooks/useCurrentUser.ts";
 
 export default function App() {
-
 
   const {
     tareas,
@@ -25,51 +25,53 @@ export default function App() {
     numTareasCompletadas,
     numTareasIncompletadas,
     numTareasPapelera,
-    cambiarFiltro,
     tareasFiltradas,
     listTareasDisponibles,
-    handleBuscarTarea,
+    handleClickCambiarFiltro,
+    handleOnChangeBuscarTarea,
     listTareasBuscadasPorTitulo } = useFiltroTareas({ tareas })
 
   const {
-    handleClickOrden,
-    tareasOrdenadas } = useOrdenTareas({ listTareasBuscadasPorTitulo });
+    tareasOrdenadas,
+    handleClickOrden } = useOrdenTareas({ listTareasBuscadasPorTitulo });
 
-
+  const { usuario } = useCurrentUser();
   const textoNumTareas = numTareasDisponibles > 0 ? "Tienes " + numTareasDisponibles + " tareas" : "No tienes ninguna tarea"
 
+  
 
   return (
     <div className="app-container">
+
       {/* Sidebar estilo Linear adaptado a pantalla completa */}
+
+
 
       <AsideBar
         tareasDisponibles={numTareasDisponibles}
         tareasIncompletas={numTareasIncompletadas}
         tareasCompletas={numTareasCompletadas}
         tareasPapelera={numTareasPapelera}
-        cambiarFiltroFn={cambiarFiltro}
+        handleClickCambiarFiltroFn={handleClickCambiarFiltro}
         numeroFiltro={filtroTareas}
 
       />
 
       {/* Contenido principal a pantalla completa */}
       <main className="main-content">
-        <h1>TaskFlow</h1>
+        <h1>Bienvenido de nuevo, {usuario?.name}</h1>
         <p>{textoNumTareas}</p>
 
         <div className="formulario-wrapper">
           <FormularioTareaComponent handleClickAniadirFn={aniadirTarea} tareasFiltradas={tareasFiltradas} />
         </div>
 
-        <BuscarTareasPorTexto handleBuscarTarea={handleBuscarTarea} />
+        <BuscarTareasPorTexto handleOnChangeBuscarTareafn={handleOnChangeBuscarTarea} />
 
         <FiltroOrdenacionComponente handleClickOrdenfn={handleClickOrden} />
 
         {tareasOrdenadas.length > 0 ? (
           <section className="tareas-contenedor">
-
-
 
             {
 

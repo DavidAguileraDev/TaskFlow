@@ -6,24 +6,18 @@ import type { PrioridadId } from "../types/prioridades";
 
 export function useTareas(): {
   tareas: tarea[],
-  aniadirTarea: (titulo: string, prioridad:PrioridadId, fechaVencimiento: string | null) => void,
+  aniadirTarea: (titulo: string, prioridad: PrioridadId, fechaVencimiento: string | null) => void,
   alternarTareaEnPapelera: (id: number) => void,
   eliminarTarea: (id: number) => void,
   modificarTarea: (id: number, titulo: string, nuevaPrioridad: PrioridadId, nuevaFechaVencimiento: string | null) => void,
   modificarTareaCompletada: (id: number, completada: boolean) => void,
 } {
 
-  const [tareas, setTareas] = useState<tarea[]>([]);
-
-  const refreshTareas = () => {
-
+  const [tareas, setTareas] = useState<tarea[]>(() => {
     const guardadas = localStorage.getItem("tareas");
 
-    setTareas(guardadas !== null ? JSON.parse(guardadas) : [])
-
-  }
-
-  useEffect(refreshTareas, [])
+    return guardadas !== null ? JSON.parse(guardadas) : [];
+  });
 
   useEffect((() => {
 
@@ -44,7 +38,7 @@ export function useTareas(): {
       completada: false,
       prioridad: prioridad,
       fechaVencimiento: fechaVencimiento,
-      inTrush: false
+      inTrash: false
 
     }
 
@@ -61,7 +55,7 @@ export function useTareas(): {
 
         return {
           ...tarea,
-          inTrush: !tarea.inTrush
+          inTrash: !tarea.inTrash
         };
 
       }
@@ -94,8 +88,8 @@ export function useTareas(): {
         return {
           ...tarea,
           titulo: nuevoTitulo,
-          prioridad:nuevaPrioridad,
-          fechaVencimiento:nuevaFechaVencimiento
+          prioridad: nuevaPrioridad,
+          fechaVencimiento: nuevaFechaVencimiento
         };
 
       }
@@ -119,9 +113,9 @@ export function useTareas(): {
         };
 
       }
-        return tarea;
+      return tarea;
 
-      
+
     });
 
     setTareas(nuevasTareas);

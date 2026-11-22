@@ -2,15 +2,19 @@ import { useState } from "react";
 import type { tarea } from "../types/tarea";
 
 export function useOrdenTareas({ listTareasBuscadasPorTitulo }: { listTareasBuscadasPorTitulo:() => tarea[] }) {
+
+    // State
     const [orden, setOrden] = useState("Predeterminado");
 
 
+    // HandleClick for set the order in which the tasks will be displayed
     const handleClickOrden = ((modoOrden: string) => {
 
         setOrden(modoOrden);
 
     })
 
+    
     const tareasOrdenadas = [...listTareasBuscadasPorTitulo()].sort((a, b) => {
 
 
@@ -46,6 +50,6 @@ export function useOrdenTareas({ listTareasBuscadasPorTitulo }: { listTareasBusc
         }
     })
 
-    return { handleClickOrden, tareasOrdenadas }
+    return { tareasOrdenadas,handleClickOrden }
 
 }

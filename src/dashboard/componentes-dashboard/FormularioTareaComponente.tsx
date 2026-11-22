@@ -1,10 +1,10 @@
 
 import { SelectorPrioridadComponente } from "./SelectorPrioridadComponente.tsx";
 import { InputBarraBusqueda } from "./InputBarraBusqueda.tsx";
-import type { tarea } from "../types/tarea.ts";
-import type { PrioridadId } from "../types/prioridades.ts";
-import { usePrioridad } from "../hooks/usePrioridad.ts";
-import { useFormularioTarea } from "../hooks/useFormularioTarea.ts";
+import type { tarea } from "../../types/tarea.ts";
+import type { PrioridadId } from "../../types/prioridades.ts";
+import { usePrioridad } from "../../hooks/usePrioridad.ts";
+import { useFormularioTarea } from "../../hooks/useFormularioTarea.ts";
 
 
 export function FormularioTareaComponent({ handleClickAniadirFn, tareasFiltradas }:
@@ -21,10 +21,10 @@ export function FormularioTareaComponent({ handleClickAniadirFn, tareasFiltradas
 
     const {
         textoConfirm,
-        nombre,
+        titulo,
         fechaVencimiento,
-        handleClickNombre,
-        handleOnChangeNombre,
+        handleClickChangeTitulo,
+        handleOnChangeTitulo,
         handleOnChangeFecha
     } = useFormularioTarea(
         {
@@ -48,7 +48,7 @@ export function FormularioTareaComponent({ handleClickAniadirFn, tareasFiltradas
 
                     <button
                         type="button"
-                        onClick={handleClickNombre}
+                        onClick={handleClickChangeTitulo}
                         className="tarea-icono-btn"
                     >
                         +
@@ -57,8 +57,8 @@ export function FormularioTareaComponent({ handleClickAniadirFn, tareasFiltradas
                     <InputBarraBusqueda
                         id="nombre-tarea"
                         name="nombre-tarea"
-                        funcion={((e) => handleOnChangeNombre(e))}
-                        value={nombre}
+                        funcion={((e) => handleOnChangeTitulo(e))}
+                        value={titulo}
                         placeholder="Añadir tarea"
                     />
 

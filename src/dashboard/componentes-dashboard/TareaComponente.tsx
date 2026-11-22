@@ -1,8 +1,8 @@
 import { SelectorPrioridadComponente } from "./SelectorPrioridadComponente";
-import type { tarea } from "../types/tarea";
-import { useEdicionTarea } from "../hooks/useEdicionTareas";
-import type { PrioridadId } from "../types/prioridades";
-import { estaTareaVencida } from "../utils/fechaTarea";
+import type { tarea } from "../../types/tarea";
+import { useEdicionTarea } from "../../hooks/useEdicionTareas";
+import type { PrioridadId } from "../../types/prioridades";
+import { estaTareaVencida } from "../../utils/fechaTarea";
 
 export function TareaComponente({ tarea, numeroFiltro, listTareasDisponibles, handleClickAlternarTareaEnPapelera, handleClickEliminarfn, modificarTareaCompletada, modificarTarea }:
     {
@@ -34,7 +34,7 @@ export function TareaComponente({ tarea, numeroFiltro, listTareasDisponibles, ha
         handleClickEditar,
         handleClickGuardar,
         handleClickCancelar,
-        nombrePrioridad,
+        nombrePrioridadPorNumero,
         handleClickSetPrioridad
     } = useEdicionTarea({
         tarea,
@@ -53,7 +53,7 @@ export function TareaComponente({ tarea, numeroFiltro, listTareasDisponibles, ha
     const fechaVencimiento = tarea.fechaVencimiento
         ? new Date(tarea.fechaVencimiento + "T00:00:00").toLocaleDateString("es-ES")
         : null;
-    const inTrush = tarea.inTrush;
+    const inTrash = tarea.inTrash;
 
     const tareaVencida = estaTareaVencida(tarea);
 
@@ -73,7 +73,7 @@ export function TareaComponente({ tarea, numeroFiltro, listTareasDisponibles, ha
                         </h2>
                     </div>
 
-                    {!inTrush && (
+                    {!inTrash && (
                         <button
                             className="boton-tarea boton-editar"
                             onClick={handleClickEditar}
@@ -89,8 +89,8 @@ export function TareaComponente({ tarea, numeroFiltro, listTareasDisponibles, ha
                 {/* INFORMACIÓN DE LA TAREA */}
                 <div className="tarea-informacion">
 
-                    <span className={`prioridad prioridad-${nombrePrioridad(tarea.prioridad)}`}>
-                        {nombrePrioridad(tarea.prioridad).toUpperCase()}
+                    <span className={`prioridad prioridad-${nombrePrioridadPorNumero(tarea.prioridad)}`}>
+                        {nombrePrioridadPorNumero(tarea.prioridad).toUpperCase()}
                     </span>
 
                     {fechaVencimiento && (
@@ -101,7 +101,14 @@ export function TareaComponente({ tarea, numeroFiltro, listTareasDisponibles, ha
                         </span>
                     )}
 
-                    {inTrush && (
+                    {!fechaVencimiento && (
+                        <span className={`fecha-vencimiento`}>
+                            <span>◷</span>
+                            No hay fecha asignada
+                        </span>
+                    )}
+
+                    {inTrash && (
                         <span className="estado-papelera">
                             En papelera
                         </span>
@@ -113,7 +120,7 @@ export function TareaComponente({ tarea, numeroFiltro, listTareasDisponibles, ha
                 {/* ACCIONES */}
                 <div className="tarea-acciones">
 
-                    {!inTrush && (
+                    {!inTrash && (
                         <button
                             className={botonCompletarClassName}
                             onClick={handleClickCompletar}
@@ -122,7 +129,7 @@ export function TareaComponente({ tarea, numeroFiltro, listTareasDisponibles, ha
                         </button>
                     )}
 
-                    {inTrush && (
+                    {inTrash && (
                         <>
                             <p className={mensajeClassName}>{mensaje}</p>
 
@@ -139,7 +146,7 @@ export function TareaComponente({ tarea, numeroFiltro, listTareasDisponibles, ha
                         className="boton-tarea boton-eliminar"
                         onClick={handleClickEliminarOPapelera}
                     >
-                        {inTrush ? "Eliminar definitivamente" : "Eliminar"}
+                        {inTrash ? "Eliminar definitivamente" : "Eliminar"}
                     </button>
 
                 </div>

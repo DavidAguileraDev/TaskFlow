@@ -3,27 +3,27 @@ import type { tarea } from "../types/tarea";
 import type { PrioridadId } from "../types/prioridades";
 
 export function useFormularioTarea({
-    handleClickAniadirFn,
     tareasFiltradas,
-    prioridad }:
+    prioridad,
+    handleClickAniadirFn }:
     {
-        handleClickAniadirFn: (titulo: string, prioridad: PrioridadId, fechaVencimiento: string | null) => void,
         tareasFiltradas: tarea[],
-        prioridad: PrioridadId
+        prioridad: PrioridadId,
+        handleClickAniadirFn: (titulo: string, prioridad: PrioridadId, fechaVencimiento: string | null) => void,
     }) {
 
-
+    // States
     const [textoConfirm, setTextoConfirm] = useState("");
-    const [nombre, setNombre] = useState("");
+    const [titulo, setTitulo] = useState("");
     const [fechaVencimiento, setFechaVencimiento] = useState("");
 
 
-
-    const handleClickNombre = (() => {
+    // HandleClick for create the task
+    const handleClickChangeTitulo = (() => {
 
         const repetido = tareasFiltradas.filter((tarea) => {
 
-            if (tarea.titulo === nombre.trim()) {
+            if (tarea.titulo === titulo.trim()) {
                 return true
             }
 
@@ -31,11 +31,11 @@ export function useFormularioTarea({
 
         })
 
-        if (nombre.trim().length > 0 && repetido.length == 0) {
+        if (titulo.trim().length > 0 && repetido.length == 0) {
 
-            handleClickAniadirFn(nombre.trim(), prioridad, fechaVencimiento);
+            handleClickAniadirFn(titulo.trim(), prioridad, fechaVencimiento);
             setTextoConfirm("Tarea creada");
-            setNombre("");
+            setTitulo("");
 
 
 
@@ -53,23 +53,26 @@ export function useFormularioTarea({
 
     })
 
+    // HandleOnChange for change the date of the task
     const handleOnChangeFecha = ((e: React.ChangeEvent<HTMLInputElement>) => {
 
         setFechaVencimiento(e.target.value)
 
     })
 
-    const handleOnChangeNombre = ((e: React.ChangeEvent<HTMLInputElement>) => {
+    // HandleOnChange for change the title of the task
+    const handleOnChangeTitulo = ((e: React.ChangeEvent<HTMLInputElement>) => {
 
 
-        setNombre(e.target.value)
+        setTitulo(e.target.value)
 
 
     })
 
 
 
+    // The return of the variables
 
-    return { textoConfirm, nombre, fechaVencimiento, handleClickNombre, handleOnChangeNombre, handleOnChangeFecha }
+    return { textoConfirm, titulo, fechaVencimiento, handleClickChangeTitulo, handleOnChangeTitulo, handleOnChangeFecha }
 
 }

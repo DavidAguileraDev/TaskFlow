@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import SignIn from "./login/sign-in/App.tsx";
 import SignUp from "./login/sign-up/App.tsx";
+import Dashboard from "./dashboard/App.tsx";
 
 function App() {
     return (
@@ -12,6 +13,8 @@ function App() {
                 <Route path="/sign-in" element={<SignIn />} />
 
                 <Route path="/sign-up" element={<SignUp />} />
+
+                <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
         </BrowserRouter>
     );

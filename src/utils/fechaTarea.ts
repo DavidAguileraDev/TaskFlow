@@ -6,7 +6,7 @@ export function estaTareaVencida(tarea: tarea): boolean {
     if (
         tarea.fechaVencimiento === null ||
         tarea.completada ||
-        tarea.inTrush
+        tarea.inTrash
     ) {
         return false;
     }

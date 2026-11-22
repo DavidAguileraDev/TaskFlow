@@ -7,65 +7,88 @@ export function useFiltroTareas({ tareas }: { tareas: tarea[] }): {
   numTareasCompletadas: number,
   numTareasIncompletadas: number,
   numTareasPapelera: number,
-  cambiarFiltro: (tipo_filtro: number) => void,
   tareasFiltradas: tarea[],
   listTareasDisponibles: tarea[],
-  listTareasBuscadasPorTitulo:() => tarea[],
-  handleBuscarTarea: (texto: string) => void
+  handleClickCambiarFiltro: (tipo_filtro: number) => void,
+  listTareasBuscadasPorTitulo: () => tarea[],
+  handleOnChangeBuscarTarea: (texto: string) => void
 } {
 
+  // States
   const [filtroTareas, setfiltroTareas] = useState(0)
   const [tituloTareaBuscar, setTituloTareaBuscar] = useState("");
 
 
+  // The constants to show how many tasks each filter has
+
   const numTareasDisponibles = tareas.filter(
-    tarea => !tarea.inTrush
+    tarea => !tarea.inTrash
   ).length;
 
   const numTareasCompletadas = tareas.filter(
-    tarea => tarea.completada && !tarea.inTrush
+    tarea => tarea.completada && !tarea.inTrash
   ).length;
 
   const numTareasIncompletadas = tareas.filter(
-    tarea => !tarea.completada && !tarea.inTrush
+    tarea => !tarea.completada && !tarea.inTrash
   ).length;
 
   const numTareasPapelera = tareas.filter(
-    tarea => tarea.inTrush
+    tarea => tarea.inTrash
   ).length;
 
-  const handleBuscarTarea = ((texto: string) => {
 
-    setTituloTareaBuscar(texto)
 
-  })
-
-  const cambiarFiltro = ((tipo_filtro: number) => {
+  // HandleClick to show the tasks that are displayed
+  const handleClickCambiarFiltro = ((tipo_filtro: number) => {
 
     setfiltroTareas(tipo_filtro);
 
   })
 
+  // List of tasks that need to be displayed according to the aside filter
+
   const tareasFiltradas = tareas.filter(tarea => {
 
+    // Filter: 0 -> All tasks
     if (filtroTareas === 0) {
-      return !tarea.inTrush;
+      return !tarea.inTrash;
     }
+    // Filter: 1 -> All tasks that are incomplete
     else if (filtroTareas === 1) {
-      return !tarea.completada && !tarea.inTrush;
+      return !tarea.completada && !tarea.inTrash;
     }
+    // Filter: 2 -> All tasks that are completed
     else if (filtroTareas === 2) {
-      return tarea.completada && !tarea.inTrush;
 
-    } else if (filtroTareas === 3) {
-      return tarea.inTrush;
+      return tarea.completada && !tarea.inTrash;
+    }
+    // Filter: 3 -> Tasks in trush
+    else if (filtroTareas === 3) {
+      return tarea.inTrash;
     }
 
     return true
 
   });
 
-   const listTareasBuscadasPorTitulo = (() => {
+  // Give the tasks that aren't in the trash
+
+  const listTareasDisponibles = tareas.filter(tarea => {
+
+    return !tarea.inTrash;
+
+  });
+
+  // Change the state of the TituloTareaBuscar for searchibg
+  const handleOnChangeBuscarTarea = ((texto: string) => {
+
+    setTituloTareaBuscar(texto)
+
+  })
+
+  // Tasks filter by title write on the searcher
+  const listTareasBuscadasPorTitulo = (() => {
 
     if (tituloTareaBuscar) {
       return tareasFiltradas.filter(tarea => {
@@ -77,19 +100,11 @@ export function useFiltroTareas({ tareas }: { tareas: tarea[] }): {
         );
 
       });
-    } else{
+    } else {
       return tareasFiltradas
     }
 
   });
-
-  const listTareasDisponibles = tareas.filter(tarea => {
-
-    return !tarea.inTrush;
-
-  });
-
-
 
 
   return {
@@ -98,10 +113,10 @@ export function useFiltroTareas({ tareas }: { tareas: tarea[] }): {
     numTareasCompletadas,
     numTareasIncompletadas,
     numTareasPapelera,
-    cambiarFiltro,
     tareasFiltradas,
-    listTareasBuscadasPorTitulo,
     listTareasDisponibles,
-    handleBuscarTarea
+    handleClickCambiarFiltro,
+    handleOnChangeBuscarTarea,
+    listTareasBuscadasPorTitulo
   }
 }
