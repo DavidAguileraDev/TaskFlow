@@ -120,6 +120,7 @@ export function useTareas(): {
 
     setTareas(nuevasTareas);
   };
+  // The return of the variables and functions
 
   return { tareas, aniadirTarea, alternarTareaEnPapelera, eliminarTarea, modificarTarea, modificarTareaCompletada }
 }

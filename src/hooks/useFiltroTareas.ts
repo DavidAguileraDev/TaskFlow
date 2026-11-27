@@ -46,31 +46,29 @@ export function useFiltroTareas({ tareas }: { tareas: tarea[] }): {
 
   })
 
-  // List of tasks that need to be displayed according to the aside filter
+  // List of tasks filtered according to the selected sidebar filter
 
-  const tareasFiltradas = tareas.filter(tarea => {
+const tareasFiltradas = tareas.filter(tarea => {
 
-    // Filter: 0 -> All tasks
+    // Filter 0: All tasks not in the trash
     if (filtroTareas === 0) {
       return !tarea.inTrash;
     }
-    // Filter: 1 -> All tasks that are incomplete
+    // Filter 1: Incomplete tasks not in the trash
     else if (filtroTareas === 1) {
       return !tarea.completada && !tarea.inTrash;
     }
-    // Filter: 2 -> All tasks that are completed
+    // Filter 2: Completed tasks not in the trash
     else if (filtroTareas === 2) {
-
       return tarea.completada && !tarea.inTrash;
     }
-    // Filter: 3 -> Tasks in trush
+    // Filter 3: Tasks in the trash
     else if (filtroTareas === 3) {
       return tarea.inTrash;
     }
 
-    return true
-
-  });
+    return true;
+});
 
   // Give the tasks that aren't in the trash
 
@@ -106,6 +104,7 @@ export function useFiltroTareas({ tareas }: { tareas: tarea[] }): {
 
   });
 
+  // The return of the variables and functions
 
   return {
     filtroTareas,

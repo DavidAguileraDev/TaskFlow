@@ -16,7 +16,7 @@ export function useEdicionTarea({ tarea, numeroFiltro, listTareasDisponibles, ha
         modificarTareaCompletada: (id: number, completada: boolean) => void
     }) {
 
-    // We take the atr of the task object
+    // We take the atributtes of the task object
     const id = tarea.id;
     const titulo = tarea.titulo;
     const completada = tarea.completada;
@@ -45,7 +45,7 @@ export function useEdicionTarea({ tarea, numeroFiltro, listTareasDisponibles, ha
 
     // When we selected another filter option in aside bar, we close the edit menu
     useEffect(() => {
-        
+
         handleClickCancelar();
 
     }, [numeroFiltro])
@@ -125,7 +125,7 @@ export function useEdicionTarea({ tarea, numeroFiltro, listTareasDisponibles, ha
 
     // HandleClick for save the task according to the conditions
     const handleClickGuardar = (() => {
-        
+
         // Constants
         const tituloLimpio = nuevoTitulo.trim();
         const tituloModificado = tituloLimpio !== titulo;
@@ -169,7 +169,8 @@ export function useEdicionTarea({ tarea, numeroFiltro, listTareasDisponibles, ha
     })
 
 
-    // Returns variables and functions
+    // The return of the variables and functions
+
 
     return {
         editando,

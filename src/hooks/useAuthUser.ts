@@ -2,23 +2,24 @@ import { useState } from "react";
 import type { AuthData } from "../types/AuthData";
 import { useNavigate } from "react-router-dom";
 
-export function useAuthUser({ proceso }: { proceso: "sign-in" | "sign-up" | "get-user" }) {
+export function useAuthUser({ proceso }: { proceso: "sign-in" | "sign-up"}) {
 
-
+    //States
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
     const [acceptTerms, setAcceptTerms] = useState<boolean>(false);
     const [rememberMe, setRememberMe] = useState<boolean>(false);
-   
 
-
+    // Function for redirect for a new URL
     const navigate = useNavigate();
 
+    // Endpoint for do the consults to API
     const endpoint = "http://localhost:8000";
 
-    const accion = proceso === "sign-in" ? "sign-in" : "sign-up"
+
+    //handleOnChanges for form
 
     const handleOnChangeName = (nuevoTexto: string) => {
         setName(nuevoTexto);
@@ -46,7 +47,9 @@ export function useAuthUser({ proceso }: { proceso: "sign-in" | "sign-up" | "get
 
 
 
+    // Fetch AuthData for get a response of information
     const handleSubmit = async (e: React.FormEvent) => {
+
         e.preventDefault();
 
         try {
@@ -59,7 +62,7 @@ export function useAuthUser({ proceso }: { proceso: "sign-in" | "sign-up" | "get
                 acceptTerms: acceptTerms
             }
 
-            const respuesta = await fetch(`${endpoint}/api/${accion}`, {
+            const respuesta = await fetch(`${endpoint}/api/${proceso}`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -70,11 +73,13 @@ export function useAuthUser({ proceso }: { proceso: "sign-in" | "sign-up" | "get
 
             const datos = await respuesta.json();
 
+            // If response not "ok", dont follow the next instructions
             if (!respuesta.ok) {
                 console.log(datos.error);
                 return;
             }
 
+            // Data logs
             console.log(datos.message);
             console.log(datos.user);
 
@@ -90,6 +95,8 @@ export function useAuthUser({ proceso }: { proceso: "sign-in" | "sign-up" | "get
         }
     };
 
+
+    // The return of the variables and functions
 
     return {
         name,

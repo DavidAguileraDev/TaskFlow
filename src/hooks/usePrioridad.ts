@@ -19,6 +19,9 @@ export function usePrioridad(prioridadInicial: PrioridadId): {
         setPrioridad(num_propiedad)
     }
 
+    // The return of the variables and functions
+
+
     return { prioridad, nombrePrioridadPorNumero, handleClickSetPrioridad };
 
 }
