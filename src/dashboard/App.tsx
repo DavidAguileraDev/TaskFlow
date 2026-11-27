@@ -25,7 +25,6 @@ export default function App() {
     numTareasCompletadas,
     numTareasIncompletadas,
     numTareasPapelera,
-    tareasFiltradas,
     listTareasDisponibles,
     handleClickCambiarFiltro,
     handleOnChangeBuscarTarea,

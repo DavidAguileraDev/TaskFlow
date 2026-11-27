@@ -23,5 +23,6 @@
 ## Flujo de trabajo
 
 - Antes de cualquier cambio, indicar qué archivos se afectarían y esperar autorización.
+- Cuando el usuario pida un commit, dar solo el texto del mensaje; crear el commit solo si el usuario lo indica expresamente.
 - No instalar dependencias, ejecutar migraciones ni cambiar archivos de configuración o bloqueo sin permiso.
 - Las verificaciones (lint, typecheck, tests) solo se ejecutan si el usuario lo autoriza expresamente.
