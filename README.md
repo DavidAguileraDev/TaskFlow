@@ -112,7 +112,7 @@ composer install
 
 ### 5. Configure the environment
 
-Configure the backend environment variables, including the database connection and application secret.
+From `api/backend_taskflow`, copy `.env.dev.local.example` to `.env.dev.local` and replace the placeholders with local values, including the database connection and application secret.
 
 Do not commit `.env.local`, `.env.dev.local`, or any files containing private credentials.
 
