@@ -80,7 +80,7 @@ export function useAuthUser({ proceso }: { proceso: "sign-in" | "sign-up" | "get
 
             // Redirect only when the user login succesfull
             if (proceso === "sign-in") {
-                navigate(`/dashboard}`);
+                navigate(`/dashboard`);
 
             }
 
