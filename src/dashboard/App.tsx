@@ -63,7 +63,7 @@ export default function App() {
         <p>{textoNumTareas}</p>
 
         <div className="formulario-wrapper">
-          <FormularioTareaComponent handleClickAniadirFn={aniadirTarea} tareasFiltradas={tareasFiltradas} />
+          <FormularioTareaComponent handleClickAniadirFn={aniadirTarea} tareasDisponibles={listTareasDisponibles} />
         </div>
 
         <BuscarTareasPorTexto handleOnChangeBuscarTareafn={handleOnChangeBuscarTarea} />

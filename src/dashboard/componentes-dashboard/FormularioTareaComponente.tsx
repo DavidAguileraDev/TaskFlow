@@ -7,11 +7,11 @@ import { usePrioridad } from "../../hooks/usePrioridad.ts";
 import { useFormularioTarea } from "../../hooks/useFormularioTarea.ts";
 
 
-export function FormularioTareaComponent({ handleClickAniadirFn, tareasFiltradas }:
+export function FormularioTareaComponent({ handleClickAniadirFn, tareasDisponibles }:
     {
         handleClickAniadirFn:
         (titulo: string, prioridad: PrioridadId, fechaVencimiento: string | null) => void,
-        tareasFiltradas: tarea[]
+        tareasDisponibles: tarea[]
     }) {
 
 
@@ -23,13 +23,13 @@ export function FormularioTareaComponent({ handleClickAniadirFn, tareasFiltradas
         textoConfirm,
         titulo,
         fechaVencimiento,
-        handleClickChangeTitulo,
+        handleClickValidarYCrearTarea,
         handleOnChangeTitulo,
         handleOnChangeFecha
     } = useFormularioTarea(
         {
             handleClickAniadirFn,
-            tareasFiltradas,
+            tareasDisponibles,
             prioridad
         });
 
@@ -48,7 +48,7 @@ export function FormularioTareaComponent({ handleClickAniadirFn, tareasFiltradas
 
                     <button
                         type="button"
-                        onClick={handleClickChangeTitulo}
+                        onClick={handleClickValidarYCrearTarea}
                         className="tarea-icono-btn"
                     >
                         +
