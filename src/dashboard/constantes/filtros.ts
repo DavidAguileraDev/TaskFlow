@@ -1,7 +1,3 @@
-
-
-
-
 export const filtros = [
     {
         id: 0,

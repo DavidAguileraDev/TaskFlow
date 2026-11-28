@@ -16,10 +16,7 @@ export function useCurrentUser() {
         try {
             const respuesta = await fetch(`${endpoint}/api/me`, {
                 method: "GET",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json"
-                }
+                credentials: "include"
             });
 
             const datos = await respuesta.json();

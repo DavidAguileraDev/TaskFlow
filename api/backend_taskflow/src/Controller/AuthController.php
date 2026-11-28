@@ -14,67 +14,6 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class AuthController extends AbstractController
 {
-    /*  #[Route('/api/sign-in', name: 'api_sign-in', methods: ['POST'])]
-    public function signIn(
-        Request $request,
-        EntityManagerInterface $entityManager,
-        UserPasswordHasherInterface  $passwordHasher,
-        UserRepository $userRepository
-    ): Response {
-
-
-        // 1. Transform the request Object to array
-        $data = $request->toArray();
-
-        $email = trim($data['email'] ?? '');
-        $password = $data['password'] ?? '';
-
-        // 2. Make sure that fields are completed
-        if ($email === '' || $password === '') {
-            return $this->json([
-                'error' => 'Todos los campos son obligatorios'
-            ], 400);
-        }
-
-        // 3. Make sure that email have a valid format
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return $this->json([
-                'error' => 'El email no es válido'
-            ], 400);
-        }
-
-        // 4. Search user by email
-        $user = $userRepository->findOneBy([
-            'email' => $email
-        ]);
-
-        // 5. Verify wether user has been found
-        if (!$user) {
-            return $this->json([
-                'error' => 'El email no ha sido encontrado'
-            ], 401);
-        }
-
-
-
-        // 6. check if the password is correct
-        if (!$passwordHasher->isPasswordValid($user, $password)) {
-            return $this->json([
-                'error' => 'Contraseña incorrecta'
-            ], 401);
-        }
-
-        // 7. Response to React - FrontEnd
-        return $this->json([
-            'message' => 'Usuario encontrado',
-            'user' => [
-                'id' => $user->getId(),
-                'name' => $user->getName(),
-                'email' => $user->getEmail()
-            ]
-        ], 201);
-    } */
-
 
     #[Route('/api/sign-in', name: 'api_sign_in', methods: ['POST'])]
     public function signIn(): Response

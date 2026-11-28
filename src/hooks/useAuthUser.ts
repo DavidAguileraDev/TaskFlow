@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { AuthData } from "../types/AuthData";
 import { useNavigate } from "react-router-dom";
+import { endpoint } from "../dashboard/constantes/endpoint";
 
 export function useAuthUser({ proceso }: { proceso: "sign-in" | "sign-up"}) {
 
@@ -15,8 +16,6 @@ export function useAuthUser({ proceso }: { proceso: "sign-in" | "sign-up"}) {
     // Function for redirect for a new URL
     const navigate = useNavigate();
 
-    // Endpoint for do the consults to API
-    const endpoint = "http://localhost:8000";
 
 
     //handleOnChanges for form

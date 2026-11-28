@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import type { tarea } from "../types/tarea";
 import type { PrioridadId } from "../types/prioridades";
+import { useCurrentUser } from "./useCurrentUser";
+import { endpoint } from "../dashboard/constantes/endpoint";
 
 
 
@@ -13,36 +15,90 @@ export function useTareas(): {
   modificarTareaCompletada: (id: number, completada: boolean) => void,
 } {
 
-  const [tareas, setTareas] = useState<tarea[]>(() => {
-    const guardadas = localStorage.getItem("tareas");
+  const { usuario } = useCurrentUser()
 
-    return guardadas !== null ? JSON.parse(guardadas) : [];
-  });
+  const [tareas, setTareas] = useState<tarea[]>([]);
 
   useEffect((() => {
 
-    localStorage.setItem("tareas", JSON.stringify(tareas));
+    obtenerTareas();
 
-  }), [tareas])
 
-  const aniadirTarea = ((titulo: string, prioridad: PrioridadId, fechaVencimiento: string | null) => {
+  }), [usuario])
 
-    const nuevoId = tareas.length > 0
-      ? Math.max(...tareas.map(tarea => tarea.id)) + 1
-      : 1;
+  const obtenerTareas = async () => {
 
-    const tarea_obj: tarea = {
+    try {
 
-      id: nuevoId,
-      titulo: String(titulo),
-      completada: false,
-      prioridad: prioridad,
-      fechaVencimiento: fechaVencimiento,
-      inTrash: false
+      if (!usuario?.id) return;
 
+      const respuesta = await fetch(`${endpoint}/api/tareas/creador/${usuario?.id}`, {
+        method: "GET",
+        credentials: "include"
+      });
+
+      const datos = await respuesta.json();
+
+      // If response not "success", dont follow the next instructions
+      if (!datos.success) {
+
+        return;
+      }
+
+
+      const nuevasTareas: tarea[] = datos.tareas;
+
+      setTareas(nuevasTareas);
+
+
+
+    } catch (error) {
+      console.error("Error al conectar con el servidor:", error);
     }
 
-    setTareas([...tareas, tarea_obj]);
+  }
+
+  const aniadirTarea = (async (titulo: string, prioridad: PrioridadId, fechaVencimiento: string | null) => {
+
+
+
+
+    try {
+
+      const respuesta = await fetch(`${endpoint}/api/tareas/creador/${usuario?.id}/aniadir`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          titulo,
+          prioridad,
+          fechaVencimiento
+        })
+      });
+
+      const datos = await respuesta.json();
+
+      // If response not "ok", dont follow the next instructions
+      if (!datos.success) {
+        return;
+      }
+
+      const nuevaTarea: tarea = {
+        id: datos.tarea.id,
+        titulo: datos.tarea.titulo,
+        completada:  datos.tarea.completada,
+        prioridad:  datos.tarea.prioridad,
+        fechaVencimiento:  datos.tarea.fechaVencimiento,
+        inTrash:  datos.tarea.inTrash
+      }
+
+      setTareas([...tareas, nuevaTarea]);
+
+    } catch (error) {
+      console.error("Error al conectar con el servidor:", error);
+    }
   })
 
   const alternarTareaEnPapelera = ((id: number) => {

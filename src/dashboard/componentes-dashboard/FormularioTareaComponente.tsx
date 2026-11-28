@@ -4,7 +4,7 @@ import { InputBarraBusqueda } from "./InputBarraBusqueda.tsx";
 import type { tarea } from "../../types/tarea.ts";
 import type { PrioridadId } from "../../types/prioridades.ts";
 import { usePrioridad } from "../../hooks/usePrioridad.ts";
-import { useFormularioTarea } from "../../hooks/useFormularioTarea.ts";
+import { useFormularioTarea, LONGITUD_MAXIMA_TITULO } from "../../hooks/useFormularioTarea.ts";
 
 
 export function FormularioTareaComponent({ handleClickAniadirFn, tareasDisponibles }:
@@ -60,6 +60,7 @@ export function FormularioTareaComponent({ handleClickAniadirFn, tareasDisponibl
                         funcion={((e) => handleOnChangeTitulo(e))}
                         value={titulo}
                         placeholder="Añadir tarea"
+                        maxLength={LONGITUD_MAXIMA_TITULO}
                     />
 
                     

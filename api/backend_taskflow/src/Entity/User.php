@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -34,6 +36,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    /**
+     * @var Collection<int, Tarea>
+     */
+    #[ORM\OneToMany(targetEntity: Tarea::class, mappedBy: 'creador')]
+    private Collection $tareas;
+
+    public function __construct()
+    {
+        $this->tareas = new ArrayCollection();
+    }
 
     public function getName(): ?string
     {
@@ -120,5 +133,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password);
 
         return $data;
+    }
+
+    /**
+     * @return Collection<int, Tarea>
+     */
+    public function getTareas(): Collection
+    {
+        return $this->tareas;
+    }
+
+    public function addTarea(Tarea $tarea): static
+    {
+        if (!$this->tareas->contains($tarea)) {
+            $this->tareas->add($tarea);
+            $tarea->setCreador($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTarea(Tarea $tarea): static
+    {
+        $this->tareas->removeElement($tarea);
+
+        return $this;
     }
 }

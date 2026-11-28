@@ -2,6 +2,8 @@ import { useState } from "react";
 import type { tarea } from "../types/tarea";
 import type { PrioridadId } from "../types/prioridades";
 
+export const LONGITUD_MAXIMA_TITULO = 128;
+
 export function useFormularioTarea({
     tareasDisponibles,
     prioridad,
@@ -19,13 +21,15 @@ export function useFormularioTarea({
 
 
     // Validate the new task and create it only when its title is accepted.
-    const handleClickValidarYCrearTarea = (() => {
+    const handleClickValidarYCrearTarea = ( async () => {
+
+        const tituloRecortado = titulo.trim();
 
         // Check for repeated titles among all available tasks, excluding tasks in the trash.
         // The comparison is case-sensitive, so titles with different casing are not duplicates.
         const repetido = tareasDisponibles.filter((tarea) => {
 
-            if (tarea.titulo === titulo.trim()) {
+            if (tarea.titulo === tituloRecortado) {
                 return true
             }
 
@@ -33,15 +37,23 @@ export function useFormularioTarea({
 
         })
 
-        // Create the task only when the trimmed title is not empty and has no duplicate among available tasks.
+        const longitudValida = tituloRecortado.length <= LONGITUD_MAXIMA_TITULO;
 
-        if (titulo.trim().length > 0 && repetido.length == 0) {
+        // Create the task only when the trimmed title is valid and has no duplicate among available tasks.
 
-            handleClickAniadirFn(titulo.trim(), prioridad, fechaVencimiento);
+        if (tituloRecortado.length > 0 && longitudValida && repetido.length == 0) {
+
+            handleClickAniadirFn(tituloRecortado, prioridad, fechaVencimiento);
             setTextoConfirm("Tarea creada");
             setTitulo("");
 
 
+
+        // Titles longer than the database limit show a specific message.
+
+        } else if (!longitudValida) {
+
+            setTextoConfirm("El título es demasiado largo");
 
         // A duplicate among available tasks shows a message instead of throwing an error.
 
